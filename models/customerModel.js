@@ -5,34 +5,38 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectIdType = Schema.Types.ObjectId;
 
-const ProductSchema = new Schema({
+const customerStatus = {
+    NEW: 'New',
+    ACTIVE: 'Active',
+    INACTIVE: 'Inactive'
+}
+
+const CustomerSchema = new Schema({
     _id: {
         type: ObjectIdType
     },
     id: {
         type: Number
     },
-    barcode: {
-        type: String,
-    },
     name: {
         type: String
     },
-    description: {
+    email: {
         type: String
     },
-    price: {
-        type: Number
-    },
-    quantity: {
-        type: Number
-    },
-    photo: {
+    googleId: {
         type: String
     },
-    tags: [{
+    googleAccessToken: {
         type: String
-    }],
+    },
+    googleRefreshToken: {
+        type: String
+    },
+    status: {
+        type: String,
+        enum: Object.values(customerStatus),
+    },
     createdAt: {
         type: Date
     },
@@ -41,6 +45,6 @@ const ProductSchema = new Schema({
     }
 })
 
-const Product = mongoose.model('Product', ProductSchema);
+const Customer = mongoose.model('Customer', CustomerSchema);
 
-module.exports = Product;
+module.exports = Customer;

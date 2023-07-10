@@ -5,34 +5,25 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectIdType = Schema.Types.ObjectId;
 
-const ProductSchema = new Schema({
+const ProductRatingSchema = new Schema({
     _id: {
         type: ObjectIdType
     },
     id: {
+        type: String
+    },
+    productId: {
+        type: Number,
+    },
+    customerId: {
+        type: Number,
+    },
+    rating: {
         type: Number
     },
-    barcode: {
-        type: String,
-    },
-    name: {
+    comment: {
         type: String
     },
-    description: {
-        type: String
-    },
-    price: {
-        type: Number
-    },
-    quantity: {
-        type: Number
-    },
-    photo: {
-        type: String
-    },
-    tags: [{
-        type: String
-    }],
     createdAt: {
         type: Date
     },
@@ -41,6 +32,6 @@ const ProductSchema = new Schema({
     }
 })
 
-const Product = mongoose.model('Product', ProductSchema);
+const ProductRating = mongoose.model('ProductRating', ProductRatingSchema);
 
-module.exports = Product;
+module.exports = ProductRating;
