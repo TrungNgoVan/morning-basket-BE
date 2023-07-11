@@ -6,9 +6,6 @@ const Schema = mongoose.Schema;
 const ObjectIdType = Schema.Types.ObjectId;
 
 const ProductSchema = new Schema({
-    _id: {
-        type: ObjectIdType
-    },
     id: {
         type: Number
     },
@@ -25,7 +22,8 @@ const ProductSchema = new Schema({
         type: Number
     },
     quantity: {
-        type: Number
+        type: Number,
+        default: 0
     },
     photo: {
         type: String
@@ -34,12 +32,19 @@ const ProductSchema = new Schema({
         type: String
     }],
     createdAt: {
-        type: Date
+        type: Date,
+        default: Date.now
     },
     updatedAt: {
-        type: Date
+        type: Date,
+        default: Date.now
     }
 })
+
+ProductSchema.pre('findOneAndUpdate', function (next) {
+    this.set({ updatedAt: new Date() });
+    next();
+});
 
 const Product = mongoose.model('Product', ProductSchema);
 
