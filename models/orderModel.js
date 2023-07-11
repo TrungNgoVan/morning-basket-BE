@@ -6,12 +6,12 @@ const Schema = mongoose.Schema;
 const ObjectIdType = Schema.Types.ObjectId;
 
 const orderStatus = {
-    PENDING: "Pending",
-    PLACED: "Placed",
-    SHIPPED: "Shipped",
-    COMPLETED: "Completed",
-    CANCELLED: "Cancelled",
-    REFUNDED: "Refunded"
+    PENDING: "pending",
+    PLACED: "placed",
+    SHIPPED: "shipped",
+    COMPLETED: "completed",
+    CANCELLED: "cancelled",
+    REFUNDED: "refunded"
 }
 
 const OrderSchema = new Schema({
