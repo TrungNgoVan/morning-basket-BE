@@ -14,7 +14,8 @@ mongoClient.connect('mongodb+srv://morning-basket.hzzrn2x.mongodb.net/?authSourc
     useNewUrlParser: true,  // return promise
     ssl: true,
     sslKey: credentials,
-    sslCert: credentials
+    sslCert: credentials,
+    dbName: "morningbasket"
 }).then(() => {
     console.log('Connect db successfully ✅');
 }).catch((err) => {
