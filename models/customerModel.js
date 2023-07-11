@@ -6,9 +6,9 @@ const Schema = mongoose.Schema;
 const ObjectIdType = Schema.Types.ObjectId;
 
 const customerStatus = {
-    NEW: 'New',
-    ACTIVE: 'Active',
-    INACTIVE: 'Inactive'
+    PENDING: 'pending',
+    ACTIVE: 'active',
+    INACTIVE: 'inactive'
 }
 
 const CustomerSchema = new Schema({
