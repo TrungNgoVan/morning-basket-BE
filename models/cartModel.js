@@ -6,11 +6,11 @@ const Schema = mongoose.Schema;
 const ObjectIdType = Schema.Types.ObjectId;
 
 const cartStatus = {
-    NEW: 'New',
-    ACTIVE: 'Active',
-    COMPLETED: 'Completed',
-    EXPIRED: 'Expired',
-    EMPTY: 'Empty',
+    NEW: 'new',
+    ACTIVE: 'active',
+    COMPLETED: 'completed',
+    EXPIRED: 'expired',
+    EMPTY: 'empty',
 };
 
 const CartSchema = new Schema({
