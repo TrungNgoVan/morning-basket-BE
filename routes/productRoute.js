@@ -6,6 +6,7 @@ const router = express.Router();
 const productController = require('../controllers/productController');
 
 router.route('/:productID')
+    .get(productController.getProductById)
     .patch(productController.updateProduct)
     .delete(productController.deleteProduct)
 
