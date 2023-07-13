@@ -1,50 +1,50 @@
 'use strict'
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
-const ObjectIdType = Schema.Types.ObjectId;
+const Schema = mongoose.Schema
+const ObjectIdType = Schema.Types.ObjectId
 
 const customerStatus = {
     PENDING: 'pending',
     ACTIVE: 'active',
-    INACTIVE: 'inactive'
+    INACTIVE: 'inactive',
 }
 
 const CustomerSchema = new Schema({
     _id: {
-        type: ObjectIdType
+        type: ObjectIdType,
     },
     id: {
-        type: Number
+        type: Number,
     },
     name: {
-        type: String
+        type: String,
     },
     email: {
-        type: String
+        type: String,
     },
     googleId: {
-        type: String
+        type: String,
     },
     googleAccessToken: {
-        type: String
+        type: String,
     },
     googleRefreshToken: {
-        type: String
+        type: String,
     },
     status: {
         type: String,
         enum: Object.values(customerStatus),
     },
     createdAt: {
-        type: Date
+        type: Date,
     },
     updatedAt: {
-        type: Date
-    }
+        type: Date,
+    },
 })
 
-const Customer = mongoose.model('Customer', CustomerSchema);
+const Customer = mongoose.model('Customer', CustomerSchema)
 
-module.exports = Customer;
+module.exports = Customer

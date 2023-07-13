@@ -1,16 +1,16 @@
 'use strict'
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
-const ObjectIdType = Schema.Types.ObjectId;
+const Schema = mongoose.Schema
+const ObjectIdType = Schema.Types.ObjectId
 
 const ProductRatingSchema = new Schema({
     _id: {
-        type: ObjectIdType
+        type: ObjectIdType,
     },
     id: {
-        type: String
+        type: String,
     },
     productId: {
         type: Number,
@@ -19,19 +19,19 @@ const ProductRatingSchema = new Schema({
         type: Number,
     },
     rating: {
-        type: Number
+        type: Number,
     },
     comment: {
-        type: String
+        type: String,
     },
     createdAt: {
-        type: Date
+        type: Date,
     },
     updatedAt: {
-        type: Date
-    }
+        type: Date,
+    },
 })
 
-const ProductRating = mongoose.model('ProductRating', ProductRatingSchema);
+const ProductRating = mongoose.model('ProductRating', ProductRatingSchema)
 
-module.exports = ProductRating;
+module.exports = ProductRating

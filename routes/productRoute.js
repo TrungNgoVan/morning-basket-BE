@@ -1,17 +1,19 @@
 'use strict'
 
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-const productController = require('../controllers/productController');
+const productController = require('../controllers/productController')
 
-router.route('/:productID')
+router
+    .route('/')
+    .get(productController.getAllProducts)
+    .post(productController.createProduct)
+
+router
+    .route('/:productId')
     .get(productController.getProductById)
     .patch(productController.updateProduct)
     .delete(productController.deleteProduct)
 
-router.route('/')
-    .get(productController.getProducts)
-    .post(productController.createProduct)
-
-module.exports = router;
+module.exports = router

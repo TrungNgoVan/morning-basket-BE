@@ -1,22 +1,30 @@
 {
-  "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^7.3.2"
-  },
-  "name": "morning-basket-BE",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/TrungNgoVan/morning-basket-BE.git",
-  "author": "Ngô Văn Trung <Trung2601.it@gmail.com>",
-  "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon app.js"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "body-parser": "^1.20.2",
-    "dotenv": "^16.3.1",
-    "morgan": "^1.10.0",
-    "nodemon": "^3.0.1"
-  }
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "mongoose": "^7.3.2"
+    },
+    "name": "morning-basket-BE",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/TrungNgoVan/morning-basket-BE.git",
+    "author": "Ngô Văn Trung <Trung2601.it@gmail.com>",
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app.js",
+        "format:check": "prettier --check .",
+        "format:write": "prettier --write .",
+        "lint:check": "eslint .",
+        "lint:fix": "eslint --fix ."
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "body-parser": "^1.20.2",
+        "dotenv": "^16.3.1",
+        "eslint": "^8.44.0",
+        "eslint-config-prettier": "^8.8.0",
+        "morgan": "^1.10.0",
+        "nodemon": "^3.0.1",
+        "prettier": "^3.0.0"
+    }
 }

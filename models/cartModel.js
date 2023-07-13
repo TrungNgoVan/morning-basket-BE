@@ -1,9 +1,9 @@
 'use strict'
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
-const ObjectIdType = Schema.Types.ObjectId;
+const Schema = mongoose.Schema
+const ObjectIdType = Schema.Types.ObjectId
 
 const cartStatus = {
     NEW: 'new',
@@ -11,48 +11,49 @@ const cartStatus = {
     COMPLETED: 'completed',
     EXPIRED: 'expired',
     EMPTY: 'empty',
-};
+}
 
 const CartSchema = new Schema({
     _id: {
-        type: ObjectIdType
+        type: ObjectIdType,
     },
     id: {
-        type: String
+        type: String,
     },
     customerId: {
-        type: String
+        type: String,
     },
-    items: [{
-        itemId: {
-            type: String
+    items: [
+        {
+            itemId: {
+                type: String,
+            },
+            name: {
+                type: String,
+            },
+            quantity: {
+                type: Number,
+            },
+            price: {
+                type: Number,
+            },
         },
-        name: {
-            type: String
-        },
-        quantity: {
-            type: Number
-        },
-        price: {
-            type: Number
-        }
-    }]
-    ,
+    ],
     totalPrice: {
-        type: Number
+        type: Number,
     },
     status: {
         type: String,
         enum: Object.values(cartStatus),
     },
     createdAt: {
-        type: Date
+        type: Date,
     },
     updatedAt: {
-        type: Date
+        type: Date,
     },
 })
 
-const Cart = mongoose.model('Cart', CartSchema);
+const Cart = mongoose.model('Cart', CartSchema)
 
-module.exports = Cart;
+module.exports = Cart
