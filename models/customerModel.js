@@ -1,5 +1,3 @@
-'use strict'
-
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
@@ -12,9 +10,6 @@ const customerStatus = {
 }
 
 const CustomerSchema = new Schema({
-    _id: {
-        type: ObjectIdType
-    },
     id: {
         type: Number
     },
@@ -22,6 +17,12 @@ const CustomerSchema = new Schema({
         type: String
     },
     email: {
+        type: String
+    },
+    phoneNumber: {
+        type: String
+    },
+    password: {
         type: String
     },
     googleId: {
@@ -38,11 +39,18 @@ const CustomerSchema = new Schema({
         enum: Object.values(customerStatus),
     },
     createdAt: {
-        type: Date
+        type: Date,
+        default: Date.now
     },
     updatedAt: {
-        type: Date
+        type: Date,
+        default: Date.now
     }
+});
+
+CustomerSchema.pre('findOneAndUpdate', function (next) {
+    this.set({ updatedAt: new Date() });
+    next();
 })
 
 const Customer = mongoose.model('Customer', CustomerSchema);
