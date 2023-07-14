@@ -1,7 +1,8 @@
+'use strict'
 const mongoose = require('mongoose');
+const bcryptjs = require('bcryptjs');
 
 const Schema = mongoose.Schema;
-const ObjectIdType = Schema.Types.ObjectId;
 
 const customerStatus = {
     NEW: 'New',
@@ -14,13 +15,16 @@ const CustomerSchema = new Schema({
         type: Number
     },
     name: {
-        type: String
+        type: String,
+        default: "default"
     },
     email: {
-        type: String
+        type: String,
+        default: "default@gmail.com"
     },
     phoneNumber: {
-        type: String
+        type: String,
+        default: "0987654321"
     },
     password: {
         type: String
@@ -53,6 +57,35 @@ CustomerSchema.pre('findOneAndUpdate', function (next) {
     next();
 })
 
+// ! ENCODE PASSWORD CUSTOMER
+// * Encode before save customer (use pre method)
+CustomerSchema.pre('save', async function (next) {
+    try {
+        // Generate a salt
+        const salt = await bcryptjs.genSalt(10);
+        console.log('Salt ', salt);
+        // Generate a password hash (salt + hash)
+        const passwordHashed = await bcryptjs.hash(this.password, salt);
+        // Re-assign password hashed
+        console.log('Old password', this.password);
+        console.log('Password hashed', passwordHashed);
+        this.password = passwordHashed;
+        next();
+    } catch (err) {
+        next(err);
+    }
+})
+
+
+CustomerSchema.methods.isValidPassword = async function (newPassword) {
+    try {
+        return await bcryptjs.compare(newPassword, this.password);
+    } catch (err) {
+        throw new Error(err);
+    }
+}
+
 const Customer = mongoose.model('Customer', CustomerSchema);
 
 module.exports = Customer;
+
