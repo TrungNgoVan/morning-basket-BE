@@ -30,19 +30,45 @@ passport.use(new JwtStrategy({
 }))
 
 // Passport-local 
-passport.use(new LocalStrategy({
+// Passport-local for email
+passport.use('email', new LocalStrategy({
     usernameField: 'email'
 }, async (email, password, done) => {
     try {
-        const customer = await Customer.findOne({ email: email });
+        const customer = await Customer.findOne({ email });
         if (!customer) {
-            return done(null, false);
+            return done({
+                message: "Customer not exist"
+            }, false);
         }
-        // After authenticating the customer by Email or PhoneNumber, 
-        // Next verify the password the customer provided is the same as in the database
-        const isCorrectPassword = await customer.isValidPassword(password); // method in customer model.
+        const isCorrectPassword = await customer.isValidPassword(password);
         if (!isCorrectPassword) {
-            return done(null, false);
+            return done({
+                message: "Sign in failed"
+            }, false);
+        }
+        done(null, customer);
+    } catch (err) {
+        done(err, false);
+    }
+}));
+
+// Passport-local for phone number
+passport.use('phoneNumber', new LocalStrategy({
+    usernameField: 'phoneNumber'
+}, async (phoneNumber, password, done) => {
+    try {
+        const customer = await Customer.findOne({ phoneNumber });
+        if (!customer) {
+            return done({
+                message: "Customer not exist"
+            }, false);
+        }
+        const isCorrectPassword = await customer.isValidPassword(password);
+        if (!isCorrectPassword) {
+            return done({
+                message: "Sign in failed"
+            }, false);
         }
         done(null, customer);
     } catch (err) {
