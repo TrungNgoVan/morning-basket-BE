@@ -18,7 +18,7 @@ const createProduct = async (req, res, next) => {
 const getAllProducts = async (req, res, next) => {
     try {
         const products = await Product.find({})
-        return res.status(200).json({ data: products })
+        return res.status(200).json({ products })
     } catch (err) {
         next(err)
     }
@@ -35,7 +35,7 @@ const getProductById = async (req, res, next) => {
                 },
             })
         } else {
-            return res.status(200).json({ data: product })
+            return res.status(200).json({ product })
         }
     } catch (err) {
         next(err)
