@@ -1,138 +1,142 @@
 'use strict'
-const Customer = require('../models/customerModel');
-const { encodeAToken } = require('../middlewares/authenticateToken');
+const Customer = require('../models/customerModel')
+const { encodeAToken } = require('../middlewares/authenticateToken')
+
+/* eslint-disable no-unused-vars */
 
 const createCustomer = async (req, res, next) => {
     try {
-        const { name, email, phoneNumber, password } = req.value.body;
+        const { name, email, phoneNumber, password } = req.value.body
         const foundCustomer = await Customer.findOne({
             $or: [{ email }, { phoneNumber }],
-        });
+        })
         if (!foundCustomer) {
             // Create a new user
             const newCustomer = new Customer({
                 name,
                 email,
                 phoneNumber,
-                password
-            });
-            await newCustomer.save();
+                password,
+            })
+            await newCustomer.save()
             // Encode a token
             const token = encodeAToken(newCustomer._id)
-            res.setHeader('Authorization', token);
+            res.setHeader('Authorization', token)
             return res.status(201).json({
-                message: 'Create customer success'
+                message: 'Create customer success',
             })
         } else {
             return res.status(403).json({
                 error: {
-                    message: "Email already exist"
-                }
+                    message: 'Email already exist',
+                },
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 const deleteCustomer = async (req, res, next) => {
     try {
-        const { customerID } = req.value.params;
-        const customer = await Customer.findByIdAndDelete(customerID);
+        const { customerID } = req.value.params
+        const customer = await Customer.findByIdAndDelete(customerID)
         if (!customer) {
             return res.status(404).json({
                 error: {
-                    message: 'Customer not exist'
-                }
+                    message: 'Customer not exist',
+                },
             })
         } else {
             return res.status(200).json({
-                message: 'Delete customer success'
+                message: 'Delete customer success',
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 const getCustomers = async (req, res, next) => {
     try {
-        const customers = await Customer.find({});
+        const customers = await Customer.find({})
         return res.status(200).json({
-            customers
+            customers,
         })
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
-const getCustomerByID = async (req, res, next) => { // enforce new user to old user
+const getCustomerByID = async (req, res, next) => {
+    // enforce new user to old user
     try {
-        const { customerID } = req.value.params;
-        const customer = await Customer.findById(customerID);
+        const { customerID } = req.value.params
+        const customer = await Customer.findById(customerID)
         if (!customer) {
             return res.status(404).json({
                 error: {
-                    message: 'Customer not exist'
-                }
+                    message: 'Customer not exist',
+                },
             })
         } else {
             return res.status(200).json({
-                customer
+                customer,
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 const replaceCustomer = async (req, res, next) => {
     try {
-        const { customerID } = req.value.params;
-        const customer = await Customer.findById(customerID);
+        const { customerID } = req.value.params
+        const customer = await Customer.findById(customerID)
         if (!customer) {
             return res.status(404).json({
                 error: {
-                    message: 'Customer not exist'
-                }
+                    message: 'Customer not exist',
+                },
             })
         } else {
-            const newCustomer = req.value.body;
-            await Customer.findByIdAndUpdate(customerID, newCustomer);
+            const newCustomer = req.value.body
+            await Customer.findByIdAndUpdate(customerID, newCustomer)
             return res.status(200).json({
-                message: 'Replace customer success'
+                message: 'Replace customer success',
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
-const updateCustomer = async (req, res, next) => { // number of fields
+const updateCustomer = async (req, res, next) => {
+    // number of fields
     try {
-        const { customerID } = req.value.params;
-        const customer = await Customer.findById(customerID);
+        const { customerID } = req.value.params
+        const customer = await Customer.findById(customerID)
         if (!customer) {
             return res.status(404).json({
                 error: {
-                    message: 'Customer not exist'
-                }
+                    message: 'Customer not exist',
+                },
             })
         } else {
-            const newCustomer = req.value.body;
-            await Customer.findByIdAndUpdate(customerID, newCustomer);
+            const newCustomer = req.value.body
+            await Customer.findByIdAndUpdate(customerID, newCustomer)
             return res.status(200).json({
-                message: 'Update customer success'
+                message: 'Update customer success',
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 const secret = async (req, res, next) => {
     return res.status(200).json({
-        resource: true
+        resource: true,
     })
 }
 
@@ -158,48 +162,49 @@ const secret = async (req, res, next) => {
 //     })(req, res, next);
 // };
 const signin = async (req, res, next) => {
-    const token = encodeAToken(req.user._id);
-    res.setHeader('Authorization', token);
+    const token = encodeAToken(req.user._id)
+    res.setHeader('Authorization', token)
     return res.status(200).json({
-        message: "Sign in success"
+        message: 'Sign in success',
     })
-};
+}
 
 const signup = async (req, res, next) => {
-    const { name, email, phoneNumber, password } = req.value.body;
+    const { name, email, phoneNumber, password } = req.value.body
     // Check if there is a customer with same email or same phoneNumber
     const foundCustomer = await Customer.findOne({
         $or: [{ email }, { phoneNumber }],
-    });
+    })
     if (!foundCustomer) {
         // Create a new user
         const newCustomer = new Customer({
             name,
             email,
             phoneNumber,
-            password
-        });
-        await newCustomer.save();
+            password,
+        })
+        await newCustomer.save()
         // Encode a token
         const token = encodeAToken(newCustomer._id)
-        res.setHeader('Authorization', token);
+        res.setHeader('Authorization', token)
         return res.status(201).json({
-            message: 'Sign up successfully'
+            message: 'Sign up successfully',
         })
     } else if (foundCustomer.email === email) {
         return res.status(403).json({
             error: {
-                message: "Email already exists"
-            }
+                message: 'Email already exists',
+            },
         })
     } else if (foundCustomer.phoneNumber === phoneNumber) {
         return res.status(403).json({
             error: {
-                message: "Phone number already exists"
-            }
-        });
+                message: 'Phone number already exists',
+            },
+        })
     }
 }
+/* eslint-disable no-unused-vars */
 
 module.exports = {
     createCustomer,
@@ -210,6 +215,5 @@ module.exports = {
     secret,
     signin,
     signup,
-    updateCustomer
+    updateCustomer,
 }
-

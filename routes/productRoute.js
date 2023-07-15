@@ -1,14 +1,16 @@
 'use strict'
 
-
-
 const express = require('express')
 const router = express.Router()
 
 const productController = require('../controllers/productController')
-const { authenticateToken } = require('../middlewares/authenticateToken');
+const { authenticateToken } = require('../middlewares/authenticateToken')
 
-const { schemas, validateParam, validateBody } = require('../helpers/routeHelper')
+const {
+    schemas,
+    validateParam,
+    // validateBody,
+} = require('../helpers/routeHelper')
 
 router
     .route('/')
