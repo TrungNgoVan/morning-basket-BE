@@ -166,6 +166,7 @@ const signin = async (req, res, next) => {
     res.setHeader('Authorization', token)
     return res.status(200).json({
         message: 'Sign in success',
+        token: token
     })
 }
 
