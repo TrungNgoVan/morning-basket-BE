@@ -1,17 +1,6 @@
 'use strict'
 const Customer = require('../models/customerModel');
-const jwt = require('jsonwebtoken');
-const { JWT_SECRET } = require('../configs/index');
-const passport = require('passport');
-
-const encodeAToken = (customerID) => {
-    return jwt.sign({
-        iss: 'Henry',
-        sub: customerID,
-        iat: new Date().getTime(),
-        exp: new Date().setDate(new Date().getDate() + 3)
-    }, JWT_SECRET)
-}
+const { encodeAToken } = require('../middlewares/authenticateToken');
 
 const createCustomer = async (req, res, next) => {
     try {
@@ -169,30 +158,11 @@ const secret = async (req, res, next) => {
 //     })(req, res, next);
 // };
 const signin = async (req, res, next) => {
-    passport.authenticate('local', (err, customer, info) => {
-        if (err) {
-            return next(err);
-        }
-        if (!customer) {
-            return res.status(401).json({
-                message: 'Authentication failed'
-            });
-        }
-        req.login(customer, (err) => {
-            if (err) {
-                return next(err);
-            }
-            req.logout((err) => {
-                if (err) {
-                    return next(err);
-                }
-                return res.status(200).json({
-                    message: 'Authentication successful',
-                    customer: customer
-                });
-            });
-        });
-    })(req, res, next);
+    const token = encodeAToken(req.user._id);
+    res.setHeader('Authorization', token);
+    return res.status(200).json({
+        message: "Sign in success"
+    })
 };
 
 const signup = async (req, res, next) => {
