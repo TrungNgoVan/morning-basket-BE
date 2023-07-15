@@ -1,30 +1,52 @@
 'use strict'
 
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const ProductSchema = new Schema({
     id: {
-        type: Number
+        type: Number,
     },
-    tags: [{
-        type: String
-    }],
+    barcode: {
+        type: String,
+    },
     name: {
-        type: String
+        type: String,
     },
     description: {
-        type: String
-    },
-    photo: {
-        type: String
+        type: String,
     },
     price: {
-        type: Number
-    }
+        type: Number,
+    },
+    quantity: {
+        type: Number,
+        default: 0,
+    },
+    photo: {
+        type: String,
+    },
+    tags: [
+        {
+            type: String,
+        },
+    ],
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now,
+    },
 })
 
-const Product = mongoose.model('Product', ProductSchema);
+ProductSchema.pre('findOneAndUpdate', function (next) {
+    this.set({ updatedAt: new Date() })
+    next()
+})
 
-module.exports = Product;
+const Product = mongoose.model('Product', ProductSchema)
+
+module.exports = Product
