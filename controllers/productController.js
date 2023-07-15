@@ -17,7 +17,7 @@ const createProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
     try {
-        const { productID } = req.params;
+        const { productID } = req.value.params;
         const product = await Product.findByIdAndDelete(productID);
         if (product === null) {
             return res.status(404).json({
@@ -28,6 +28,25 @@ const deleteProduct = async (req, res, next) => {
         } else {
             return res.status(200).json({
                 message: "Delete success"
+            })
+        }
+    } catch (err) {
+        next(err);
+    }
+}
+
+const getProductByID = async (req, res, next) => {
+    try {
+        const { productID } = req.value.params;
+        console.log(productID);
+        const product = await Product.findById(productID);
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not exist"
+            })
+        } else {
+            return res.status(200).json({
+                product
             })
         }
     } catch (err) {
@@ -48,7 +67,7 @@ const getProducts = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
     try {
-        const { productID } = req.params;
+        const { productID } = req.value.params;
         const product = Product.findById(productID);
         if (product === null) {
             return res.status(404).json({
@@ -57,7 +76,7 @@ const updateProduct = async (req, res, next) => {
                 }
             })
         } else {
-            const newProduct = req.body;
+            const newProduct = req.value.body;
             await Product.findByIdAndUpdate(productID, newProduct, { updateAt: Date.now() });
             return res.status(200).json({
                 message: "Update product success"
@@ -72,6 +91,7 @@ const updateProduct = async (req, res, next) => {
 module.exports = {
     createProduct,
     deleteProduct,
+    getProductByID,
     getProducts,
     updateProduct
 }
