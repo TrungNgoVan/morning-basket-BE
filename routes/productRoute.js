@@ -1,9 +1,14 @@
 'use strict'
 
+
+
 const express = require('express')
 const router = express.Router()
 
 const productController = require('../controllers/productController')
+const { authenticateToken } = require('../middlewares/authenticateToken');
+
+const { schemas, validateParam, validateBody } = require('../helpers/routeHelper')
 
 router
     .route('/')
@@ -12,8 +17,18 @@ router
 
 router
     .route('/:productId')
-    .get(productController.getProductById)
-    .patch(productController.updateProduct)
-    .delete(productController.deleteProduct)
+    .get(
+        validateParam(schemas.productIdSchema, 'productId'),
+        authenticateToken,
+        productController.getProductById
+    )
+    .patch(
+        validateParam(schemas.productIdSchema, 'productId'),
+        productController.updateProduct
+    )
+    .delete(
+        validateParam(schemas.productIdSchema, 'productId'),
+        productController.deleteProduct
+    )
 
 module.exports = router
