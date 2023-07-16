@@ -1,6 +1,7 @@
 'use strict'
 const mongoose = require('mongoose')
 const bcryptjs = require('bcryptjs')
+const { getNextSequenceValue } = require('../helpers/mongoHelper');
 
 const Schema = mongoose.Schema
 
@@ -13,6 +14,7 @@ const customerStatus = {
 const CustomerSchema = new Schema({
     id: {
         type: Number,
+        default: null
     },
     name: {
         type: String,
@@ -62,15 +64,15 @@ CustomerSchema.pre('findOneAndUpdate', function (next) {
 CustomerSchema.pre('save', async function (next) {
     try {
         // Generate a salt
-        const salt = await bcryptjs.genSalt(10)
-        console.log('Salt ', salt)
+        const salt = await bcryptjs.genSalt(10);
         // Generate a password hash (salt + hash)
         const passwordHashed = await bcryptjs.hash(this.password, salt)
         // Re-assign password hashed
-        console.log('Old password', this.password)
-        console.log('Password hashed', passwordHashed)
-        this.password = passwordHashed
-        next()
+        this.password = passwordHashed;
+        if (!this.id) {
+            this.id = await getNextSequenceValue("customer");
+        }
+        next();
     } catch (err) {
         next(err)
     }
@@ -84,16 +86,6 @@ CustomerSchema.methods.isValidPassword = async function (newPassword) {
     }
 }
 
-CustomerSchema.methods.isValidPassword = async function (newPassword) {
-    try {
-        return await bcryptjs.compare(newPassword, this.password)
-    } catch (err) {
-        throw new Error(err)
-    }
-}
-
 const Customer = mongoose.model('Customer', CustomerSchema)
-
-module.exports = Customer
 
 module.exports = Customer

@@ -40,7 +40,7 @@ const createCustomer = async (req, res, next) => {
 const deleteCustomer = async (req, res, next) => {
     try {
         const { customerID } = req.value.params
-        const customer = await Customer.findByIdAndDelete(customerID)
+        const customer = await Customer.findOneAndDelete({ id: customerID })
         if (!customer) {
             return res.status(404).json({
                 error: {
@@ -72,7 +72,7 @@ const getCustomerByID = async (req, res, next) => {
     // enforce new user to old user
     try {
         const { customerID } = req.value.params
-        const customer = await Customer.findById(customerID)
+        const customer = await Customer.findOne({ id: customerID })
         if (!customer) {
             return res.status(404).json({
                 error: {
@@ -92,7 +92,7 @@ const getCustomerByID = async (req, res, next) => {
 const replaceCustomer = async (req, res, next) => {
     try {
         const { customerID } = req.value.params
-        const customer = await Customer.findById(customerID)
+        const customer = await Customer.findOne({ id: customerID })
         if (!customer) {
             return res.status(404).json({
                 error: {
@@ -101,7 +101,7 @@ const replaceCustomer = async (req, res, next) => {
             })
         } else {
             const newCustomer = req.value.body
-            await Customer.findByIdAndUpdate(customerID, newCustomer)
+            await Customer.findOneAndUpdate({ id: customerID }, newCustomer);
             return res.status(200).json({
                 message: 'Replace customer success',
             })
@@ -115,7 +115,8 @@ const updateCustomer = async (req, res, next) => {
     // number of fields
     try {
         const { customerID } = req.value.params
-        const customer = await Customer.findById(customerID)
+        const customer = await Customer.findOne({ id: customerID })
+        console.log(customer);
         if (!customer) {
             return res.status(404).json({
                 error: {
@@ -124,7 +125,7 @@ const updateCustomer = async (req, res, next) => {
             })
         } else {
             const newCustomer = req.value.body
-            await Customer.findByIdAndUpdate(customerID, newCustomer)
+            await Customer.findOneAndUpdate({ id: customerID }, newCustomer);
             return res.status(200).json({
                 message: 'Update customer success',
             })
