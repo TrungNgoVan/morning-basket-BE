@@ -1,12 +1,13 @@
 'use strict'
 
 const mongoose = require('mongoose')
-
+const { getNextSequenceValue } = require('../helpers/mongoHelper')
 const Schema = mongoose.Schema
 
 const ProductSchema = new Schema({
     id: {
         type: Number,
+        default: null
     },
     barcode: {
         type: String,
@@ -45,6 +46,17 @@ const ProductSchema = new Schema({
 ProductSchema.pre('findOneAndUpdate', function (next) {
     this.set({ updatedAt: new Date() })
     next()
+})
+
+ProductSchema.pre('save', async function (next) {
+    try {
+        if (!this.id) {
+            this.id = await getNextSequenceValue("product");
+        }
+        next();
+    } catch (err) {
+        next(err)
+    }
 })
 
 const Product = mongoose.model('Product', ProductSchema)
