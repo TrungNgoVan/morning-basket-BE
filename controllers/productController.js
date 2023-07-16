@@ -4,7 +4,7 @@ const Product = require('../models/productModel')
 
 const createProduct = async (req, res, next) => {
     try {
-        const product = req.body
+        const product = req.value.body
         const newProduct = new Product(product)
         await newProduct.save()
         return res.status(201).json({
@@ -26,12 +26,12 @@ const getAllProducts = async (req, res, next) => {
 
 const getProductById = async (req, res, next) => {
     try {
-        const { productId } = req.params
-        const product = await Product.findOne({ id: productId })
+        const { productID } = req.value.params
+        const product = await Product.findOne({ id: productID })
         if (product === null) {
             return res.status(404).json({
                 error: {
-                    message: `Product ${productId} not found`,
+                    message: `Product ${productID} not found`,
                 },
             })
         } else {
@@ -44,17 +44,17 @@ const getProductById = async (req, res, next) => {
 
 const updateProduct = async (req, res, next) => {
     try {
-        const { productId } = req.params
-        const product = await Product.find({ id: productId })
+        const { productID } = req.value.params
+        const product = await Product.find({ id: productID })
         if (product === null) {
             return res.status(404).json({
                 error: {
-                    message: `Product ${productId} not found`,
+                    message: `Product ${productID} not found`,
                 },
             })
         } else {
-            const newProduct = req.body
-            await Product.findOneAndUpdate({ id: productId }, newProduct, {
+            const newProduct = req.value.body
+            await Product.findOneAndUpdate({ id: productID }, newProduct, {
                 updatedAt: Date.now(),
             })
             return res.status(200).json({
@@ -68,12 +68,12 @@ const updateProduct = async (req, res, next) => {
 
 const deleteProduct = async (req, res, next) => {
     try {
-        const { productId } = req.params
-        const product = await Product.findOneAndDelete({ id: productId })
+        const { productID } = req.value.params
+        const product = await Product.findOneAndDelete({ id: productID })
         if (product === null) {
             return res.status(404).json({
                 error: {
-                    message: `Product ${productId} not found. Not deleted`,
+                    message: `Product ${productID} not found. Not deleted`,
                 },
             })
         } else {
