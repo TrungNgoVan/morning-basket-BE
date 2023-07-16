@@ -9,7 +9,7 @@ const { authenticateToken } = require('../middlewares/authenticateToken')
 const {
     schemas,
     validateParam,
-    // validateBody,
+    validateBody,
 } = require('../helpers/routeHelper')
 
 router
@@ -18,18 +18,25 @@ router
     .post(productController.createProduct)
 
 router
-    .route('/:productId')
+    .route('/:productID')
     .get(
-        validateParam(schemas.productIdSchema, 'productId'),
+        validateParam(schemas.idNumberSchema, 'productID'),
         authenticateToken,
         productController.getProductById
     )
+    .post(
+        validateParam(schemas.idNumberSchema, 'productID'),
+        authenticateToken,
+        validateBody(schemas.productSchema),
+        productController.createProduct
+    )
     .patch(
-        validateParam(schemas.productIdSchema, 'productId'),
+        validateParam(schemas.idNumberSchema, 'productID'),
+        validateBody(schemas.productOptionalSchema),
         productController.updateProduct
     )
     .delete(
-        validateParam(schemas.productIdSchema, 'productId'),
+        validateParam(schemas.idNumberSchema, 'productID'),
         productController.deleteProduct
     )
 
