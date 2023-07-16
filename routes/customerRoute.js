@@ -47,21 +47,21 @@ router
 router
     .route('/:customerID')
     .get(
-        validateParam(schemas.idSchema, 'customerID'),
+        validateParam(schemas.idNumberSchema, 'customerID'),
         CustomerController.getCustomerByID
     )
     .put(
-        validateParam(schemas.idSchema, 'customerID'),
+        validateParam(schemas.idNumberSchema, 'customerID'),
         validateBody(schemas.customerSchema),
         CustomerController.replaceCustomer
     )
     .patch(
-        validateParam(schemas.idSchema, 'customerID'),
+        validateParam(schemas.idNumberSchema, 'customerID'),
         validateBody(schemas.customerOptionalSchema),
         CustomerController.updateCustomer
     )
     .delete(
-        validateParam(schemas.idSchema, 'customerID'),
+        validateParam(schemas.idNumberSchema, 'customerID'),
         CustomerController.deleteCustomer
     )
 module.exports = router
