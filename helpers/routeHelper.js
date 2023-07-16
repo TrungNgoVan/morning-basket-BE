@@ -96,10 +96,10 @@ const schemas = {
             totalPrice: Joi.number().required(),
             shippingAddress: Joi.string().required(),
             billingAddress: Joi.string().required(),
-            status: Joi.string().valid('pending', 'processing', 'shipped', 'delivered').required(),
+            status: Joi.string().valid('pending', 'placed', 'shipped', 'completed', 'cancelled', 'refunded').required(),
             orderedAt: Joi.date(),
             createdAt: Joi.date(),
-            updatedAt: Joi.date(),
+            updatedAt: Joi.date()
         })
         .options({ stripUnknown: true }),
     orderOptionalSchema: Joi.object()
