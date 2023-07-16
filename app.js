@@ -24,6 +24,7 @@ const corsOptions = {
 // import router
 const productRouter = require('./routes/productRoute')
 const customerRouter = require('./routes/customerRoute')
+const orderRouter = require('./routes/orderRoute')
 /* eslint-disable no-unused-vars */
 
 // setup connect mongodb by mongoose
@@ -71,11 +72,11 @@ app.use(
 )
 app.use(passport.initialize())
 app.use(passport.session())
-
 // Router
 
 app.use('/products', productRouter)
 app.use('/customers', customerRouter)
+app.use('/orders', orderRouter)
 
 app.use('/', (req, res, next) => {
     return res.status(200).json({
