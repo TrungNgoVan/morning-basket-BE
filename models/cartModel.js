@@ -3,7 +3,6 @@
 const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
-const ObjectIdType = Schema.Types.ObjectId
 
 const cartStatus = {
     NEW: 'new',
@@ -14,9 +13,6 @@ const cartStatus = {
 }
 
 const CartSchema = new Schema({
-    _id: {
-        type: ObjectIdType,
-    },
     id: {
         type: String,
     },
