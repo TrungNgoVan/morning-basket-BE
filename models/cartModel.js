@@ -1,6 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
+const { getNextSequenceValue } = require('../helpers/mongoHelper')
 
 const Schema = mongoose.Schema
 
@@ -14,15 +15,16 @@ const cartStatus = {
 
 const CartSchema = new Schema({
     id: {
-        type: String,
+        type: Number,
+        default: null
     },
     customerId: {
-        type: String,
+        type: Number,
     },
     items: [
         {
             itemId: {
-                type: String,
+                type: Number,
             },
             name: {
                 type: String,
@@ -44,10 +46,29 @@ const CartSchema = new Schema({
     },
     createdAt: {
         type: Date,
+        default: Date.now
     },
     updatedAt: {
         type: Date,
+        default: Date.now
     },
+})
+
+
+CartSchema.pre('findOneAndUpdate', function (next) {
+    this.set({ updatedAt: new Date() })
+    next()
+})
+
+CartSchema.pre('save', async function (next) {
+    try {
+        if (!this.id) {
+            this.id = await getNextSequenceValue("cart");
+        }
+        next();
+    } catch (err) {
+        next(err)
+    }
 })
 
 const Cart = mongoose.model('Cart', CartSchema)
