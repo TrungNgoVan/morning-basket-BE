@@ -1,16 +1,14 @@
 'use strict'
 
 const mongoose = require('mongoose')
+const { getNextSequenceValue } = require('../helpers/mongoHelper')
 
-const Schema = mongoose.Schema
-const ObjectIdType = Schema.Types.ObjectId
+const Schema = mongoose.Schema;
 
 const ProductRatingSchema = new Schema({
-    _id: {
-        type: ObjectIdType,
-    },
     id: {
         type: String,
+        default: null
     },
     productId: {
         type: Number,
@@ -26,10 +24,28 @@ const ProductRatingSchema = new Schema({
     },
     createdAt: {
         type: Date,
+        default: Date.now
     },
     updatedAt: {
         type: Date,
+        default: Date.now
     },
+})
+
+ProductRatingSchema.pre('findOneAndUpdate', function (next) {
+    this.set({ updatedAt: new Date() })
+    next()
+})
+
+ProductRatingSchema.pre('save', async function (next) {
+    try {
+        if (!this.id) {
+            this.id = await getNextSequenceValue("rating");
+        }
+        next();
+    } catch (err) {
+        next(err)
+    }
 })
 
 const ProductRating = mongoose.model('ProductRating', ProductRatingSchema)
