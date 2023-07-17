@@ -7,6 +7,7 @@ const { encodeAToken } = require('../middlewares/authenticateToken')
 const createCustomer = async (req, res, next) => {
     try {
         const { name, email, phoneNumber, password } = req.value.body
+        // Check if there is a customer with same email or same phoneNumber
         const foundCustomer = await Customer.findOne({
             $or: [{ email }, { phoneNumber }],
         })
@@ -23,12 +24,18 @@ const createCustomer = async (req, res, next) => {
             const token = encodeAToken(newCustomer._id)
             res.setHeader('Authorization', token)
             return res.status(201).json({
-                message: 'Create customer success',
+                message: 'Create customer successfully',
             })
-        } else {
+        } else if (foundCustomer.email === email) {
             return res.status(403).json({
                 error: {
-                    message: 'Email already exist',
+                    message: 'Email already exists',
+                },
+            })
+        } else if (foundCustomer.phoneNumber === phoneNumber) {
+            return res.status(403).json({
+                error: {
+                    message: 'Phone number already exists',
                 },
             })
         }
@@ -116,7 +123,6 @@ const updateCustomer = async (req, res, next) => {
     try {
         const { customerID } = req.value.params
         const customer = await Customer.findOne({ id: customerID })
-        console.log(customer);
         if (!customer) {
             return res.status(404).json({
                 error: {
@@ -141,27 +147,6 @@ const secret = async (req, res, next) => {
     })
 }
 
-// const signin = async (req, res, next) => {
-//     passport.authenticate('local', (err, customer, info) => {
-//         if (err) {
-//             return next(err);
-//         }
-//         if (!customer) {
-//             return res.status(401).json({
-//                 message: 'Authentication failed'
-//             });
-//         }
-//         req.login(customer, (err) => {
-//             if (err) {
-//                 return next(err);
-//             }
-//             return res.status(200).json({
-//                 message: 'Authentication successful',
-//                 customer: customer
-//             });
-//         });
-//     })(req, res, next);
-// };
 const signin = async (req, res, next) => {
     const token = encodeAToken(req.user._id)
     res.setHeader('Authorization', token)

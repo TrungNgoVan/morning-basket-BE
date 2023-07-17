@@ -25,17 +25,18 @@ router
     .route('/signup')
     .post(validateBody(schemas.authSignUpSchema), CustomerController.signup)
 
-router.route('/signin').post(
-    validateBody(schemas.authSignInSchema),
-    (req, res, next) => {
-        const email = req.body.email
-        const phoneNumber = req.body.phoneNumber
-        const strategy =
-            email != null && phoneNumber == null ? 'email' : 'phoneNumber'
-        passport.authenticate(strategy, { session: false })(req, res, next)
-    },
-    CustomerController.signin
-)
+router
+    .route('/signin').post(
+        validateBody(schemas.authSignInSchema),
+        (req, res, next) => {
+            const email = req.body.email
+            const phoneNumber = req.body.phoneNumber
+            const strategy =
+                email != null && phoneNumber == null ? 'email' : 'phoneNumber'
+            passport.authenticate(strategy, { session: false })(req, res, next)
+        },
+        CustomerController.signin
+    )
 
 router
     .route('/secret')
