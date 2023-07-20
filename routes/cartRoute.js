@@ -4,6 +4,7 @@ const express = require('express')
 const router = express.Router()
 
 const CartController = require('../controllers/cartController')
+const { authenticateToken } = require('../middlewares/authenticateToken')
 
 const {
     schemas,
@@ -14,7 +15,8 @@ const {
 router
     .route('/')
     .get(
-        CartController.getCarts
+        authenticateToken,
+        CartController.getCartByCustomerID
     )
     .post(
         validateBody(schemas.cartSchema),
@@ -36,5 +38,6 @@ router
         validateParam(schemas.idNumberSchema, 'cartID'),
         CartController.deleteCart
     )
+
 
 module.exports = router;

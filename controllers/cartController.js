@@ -1,4 +1,7 @@
+
 const Cart = require('../models/cartModel')
+const Customer = require('../models/customerModel')
+const { decodeAToken } = require('../middlewares/authenticateToken')
 
 const createCart = async (req, res, next) => {
     try {
@@ -27,6 +30,20 @@ const deleteCart = async (req, res, next) => {
                 message: "Delete cart success"
             })
         }
+    } catch (err) {
+        next(err);
+    }
+}
+
+const getCartByCustomerID = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization
+        const decoded = decodeAToken(token)
+        const customer = await Customer.findById(decoded.sub)
+        const carts = await Cart.find({ customerId: customer.id })
+        return res.status(200).json({
+            carts
+        })
     } catch (err) {
         next(err);
     }
@@ -83,6 +100,7 @@ const updateCart = async (req, res, next) => {
 module.exports = {
     createCart,
     deleteCart,
+    getCartByCustomerID,
     getCartByID,
     getCarts,
     updateCart

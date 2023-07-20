@@ -172,7 +172,7 @@ const signup = async (req, res, next) => {
         })
         await newCustomer.save()
         // Encode a token
-        const token = encodeAToken(newCustomer._id)
+        const token = encodeAToken(newCustomer.id)
         res.setHeader('Authorization', token)
         return res.status(201).json({
             message: 'Sign up successfully',
