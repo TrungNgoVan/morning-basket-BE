@@ -108,7 +108,7 @@ const replaceCustomer = async (req, res, next) => {
             })
         } else {
             const newCustomer = req.value.body
-            await Customer.findOneAndUpdate({ id: customerID }, newCustomer);
+            await Customer.findOneAndUpdate({ id: customerID }, newCustomer)
             return res.status(200).json({
                 message: 'Replace customer success',
             })
@@ -131,7 +131,7 @@ const updateCustomer = async (req, res, next) => {
             })
         } else {
             const newCustomer = req.value.body
-            await Customer.findOneAndUpdate({ id: customerID }, newCustomer);
+            await Customer.findOneAndUpdate({ id: customerID }, newCustomer)
             return res.status(200).json({
                 message: 'Update customer success',
             })
@@ -152,7 +152,7 @@ const signin = async (req, res, next) => {
     res.setHeader('Authorization', token)
     return res.status(200).json({
         message: 'Sign in success',
-        token: token
+        token: token,
     })
 }
 

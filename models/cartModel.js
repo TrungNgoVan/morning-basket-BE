@@ -16,7 +16,7 @@ const cartStatus = {
 const CartSchema = new Schema({
     id: {
         type: Number,
-        default: null
+        default: null,
     },
     customerId: {
         type: Number,
@@ -46,14 +46,13 @@ const CartSchema = new Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     updatedAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
 })
-
 
 CartSchema.pre('findOneAndUpdate', function (next) {
     this.set({ updatedAt: new Date() })
@@ -63,9 +62,9 @@ CartSchema.pre('findOneAndUpdate', function (next) {
 CartSchema.pre('save', async function (next) {
     try {
         if (!this.id) {
-            this.id = await getNextSequenceValue("cart");
+            this.id = await getNextSequenceValue('cart')
         }
-        next();
+        next()
     } catch (err) {
         next(err)
     }

@@ -1,7 +1,7 @@
 'use strict'
 const mongoose = require('mongoose')
 const bcryptjs = require('bcryptjs')
-const { getNextSequenceValue } = require('../helpers/mongoHelper');
+const { getNextSequenceValue } = require('../helpers/mongoHelper')
 
 const Schema = mongoose.Schema
 
@@ -14,7 +14,7 @@ const customerStatus = {
 const CustomerSchema = new Schema({
     id: {
         type: Number,
-        default: null
+        default: null,
     },
     name: {
         type: String,
@@ -64,15 +64,15 @@ CustomerSchema.pre('findOneAndUpdate', function (next) {
 CustomerSchema.pre('save', async function (next) {
     try {
         // Generate a salt
-        const salt = await bcryptjs.genSalt(10);
+        const salt = await bcryptjs.genSalt(10)
         // Generate a password hash (salt + hash)
         const passwordHashed = await bcryptjs.hash(this.password, salt)
         // Re-assign password hashed
-        this.password = passwordHashed;
+        this.password = passwordHashed
         if (!this.id) {
-            this.id = await getNextSequenceValue("customer");
+            this.id = await getNextSequenceValue('customer')
         }
-        next();
+        next()
     } catch (err) {
         next(err)
     }

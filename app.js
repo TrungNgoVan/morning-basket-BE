@@ -1,15 +1,20 @@
 'use strict'
+/* eslint-disable no-unused-vars */
+
 const express = require('express')
 const bodyParser = require('body-parser')
-const mongoClient = require('mongoose')
+const mongoose = require('mongoose')
 const logger = require('morgan')
-/* eslint-disable no-unused-vars */
-const dotenv = require('dotenv').config()
-// const { error } = require('console');
 const passport = require('passport')
-// const session = require('express-session')
+const session = require('express-session')
+const MongoStore = require('connect-mongo')
 const crypto = require('crypto')
 const cors = require('cors')
+
+/* eslint-disable no-undef */
+const stage = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'
+require('dotenv').config(`${__dirname}/.env.${stage}`)
+
 const corsOptions = {
     origin: [
         'http://localhost:3000',
@@ -27,35 +32,29 @@ const customerRouter = require('./routes/customerRoute')
 const orderRouter = require('./routes/orderRoute')
 const cartRouter = require('./routes/cartRoute')
 const productRatingRouter = require('./routes/productRatingRoute')
-/* eslint-disable no-unused-vars */
 
-// setup connect mongodb by mongoose
-// Client
-// mongoClient.connect('mongodb://127.0.0.1:27017/morning-basket', { useNewUrlParser: true }) // return promise
-//     .then(() => {
-//         console.log('Connect db successfully ✅');
-//     })
-//     .catch((err) => {
-//         console.error(`Connect db failed with error ${err} ❌`);
-//     })
-
-// Cloud
-/* eslint-disable no-undef */
+console.log(process.env.MONGODB_URI)
 const credentials = process.env.MONGODB_CERT
-mongoClient
+const conn = mongoose
     .connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
-        ssl: process.env.MONGODB_SSL_ENABLED,
-        sslKey: credentials,
-        sslCert: credentials,
+        tls: process.env.MONGODB_SSL_ENABLED,
+        tlsCertificateKeyFile: credentials,
+        // sslCert: credentials,
         dbName: process.env.MONGODB_DB_NAME,
     })
-    .then(() => {
+    .then((m) => {
         console.log('Connect db successfully ✅')
+        return m.connection.getClient()
     })
     .catch((err) => {
         console.error(`Connect db failed with error ${err} ❌`)
     })
+
+const mongoStore = MongoStore.create({
+    clientPromise: conn,
+    dbName: process.env.MONGODB_DB_NAME,
+})
 
 // Create app object
 const app = express()
@@ -64,14 +63,15 @@ const secret = crypto.randomBytes(64).toString('hex')
 // Use middleware
 app.use(cors(corsOptions))
 app.use(logger('dev'))
-app.use(bodyParser.json())
 app.use(
-    require('express-session')({
+    session({
         secret: secret,
         resave: true,
         saveUninitialized: true,
+        store: mongoStore,
     })
 )
+app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(passport.session())
 // Router
@@ -98,7 +98,9 @@ app.use((err, req, res, next) => {
 })
 
 let server = app.listen(process.env.PORT || 3000, () => {
+    logger(`Stage: ${stage}`)
     logger(`Server listening on port ${server.address().port}`)
+    console.log(`Stage: ${stage}`)
     console.log(`Server listening on port ${server.address().port}`)
 })
 /* eslint-disable no-undef */

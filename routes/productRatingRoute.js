@@ -13,9 +13,7 @@ const {
 
 router
     .route('/')
-    .get(
-        ProductRatingController.getProductRatings
-    )
+    .get(ProductRatingController.getProductRatings)
     .post(
         validateBody(schemas.productRatingSchema),
         ProductRatingController.createProductRating
@@ -37,4 +35,4 @@ router
         ProductRatingController.deleteProductRating
     )
 
-module.exports = router;
+module.exports = router

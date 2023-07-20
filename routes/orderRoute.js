@@ -13,13 +13,8 @@ const {
 
 router
     .route('/')
-    .get(
-        OrderController.getOrders
-    )
-    .post(
-        validateBody(schemas.orderSchema),
-        OrderController.createOrder
-    )
+    .get(OrderController.getOrders)
+    .post(validateBody(schemas.orderSchema), OrderController.createOrder)
 
 router
     .route('/:orderID')
@@ -37,4 +32,4 @@ router
         OrderController.deleteOrder
     )
 
-module.exports = router;
+module.exports = router

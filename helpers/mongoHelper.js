@@ -1,6 +1,4 @@
-const {
-    Counter,
-} = require('../models/counterModel');
+const { Counter } = require('../models/counterModel')
 
 const getNextSequenceValue = async (sequenceName) => {
     try {
@@ -8,14 +6,14 @@ const getNextSequenceValue = async (sequenceName) => {
             { _id: sequenceName },
             { $inc: { seq: 1 } },
             { new: true, upsert: true }
-        );
-        return sequenceDocument.seq;
+        )
+        return sequenceDocument.seq
     } catch (err) {
-        console.log(err);
-        return 0;
+        console.log(err)
+        return 0
     }
-};
+}
 
 module.exports = {
-    getNextSequenceValue
+    getNextSequenceValue,
 }

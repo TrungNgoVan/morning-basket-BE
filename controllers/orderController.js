@@ -1,16 +1,16 @@
-const Order = require('../models/orderModel');
+const Order = require('../models/orderModel')
 
 const createOrder = async (req, res, next) => {
     try {
-        const order = req.value.body;
-        const newOrder = new Order(order);
-        await newOrder.save();
+        const order = req.value.body
+        const newOrder = new Order(order)
+        await newOrder.save()
         return res.status(200).json({
             message: 'Create order success',
-            order: order
+            order: order,
         })
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -30,7 +30,7 @@ const deleteOrder = async (req, res, next) => {
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -40,15 +40,15 @@ const getOrderByID = async (req, res, next) => {
         const order = await Order.findOne({ id: orderID })
         if (!order) {
             return res.status(404).json({
-                message: "Order not exist"
+                message: 'Order not exist',
             })
         } else {
             return res.status(200).json({
-                order
+                order,
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -56,10 +56,10 @@ const getOrders = async (req, res, next) => {
     try {
         const orders = await Order.find({})
         return res.status(200).json({
-            orders
+            orders,
         })
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -70,15 +70,15 @@ const updateOrder = async (req, res, next) => {
         const order = await Order.findOneAndUpdate({ id: orderID }, newOrder)
         if (!order) {
             return res.status(404).json({
-                message: "Order not exist"
+                message: 'Order not exist',
             })
         } else {
             return res.status(200).json({
-                message: "Update order success",
+                message: 'Update order success',
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -87,5 +87,5 @@ module.exports = {
     deleteOrder,
     getOrderByID,
     getOrders,
-    updateOrder
+    updateOrder,
 }

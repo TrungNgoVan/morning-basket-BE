@@ -24,21 +24,19 @@ const schemas = {
         .xor('email', 'phoneNumber')
         .with('email', 'password')
         .with('phoneNumber', 'password'),
-    //! ID Schema 
+    //! ID Schema
     // id mongodb
-    idSchema: Joi.object()
-        .keys({
-            param: Joi.string()
-                .regex(/^[0-9a-fA-F]{24}$/)
-                .required(),
-        }),
+    idSchema: Joi.object().keys({
+        param: Joi.string()
+            .regex(/^[0-9a-fA-F]{24}$/)
+            .required(),
+    }),
     // id number (1,2,3,...)
-    idNumberSchema: Joi.object()
-        .keys({
-            param: Joi.string()
-                .regex(/^[0-9]{1,3}$/)
-                .required(),
-        }),
+    idNumberSchema: Joi.object().keys({
+        param: Joi.string()
+            .regex(/^[0-9]{1,3}$/)
+            .required(),
+    }),
 
     //! Body Schema
     // Customer
@@ -57,59 +55,67 @@ const schemas = {
         .with('phoneNumber', 'password')
         .options({ stripUnknown: true }),
 
-    customerOptionalSchema: Joi.object()
-        .keys({
-            id: Joi.number().allow(null),
-            name: Joi.string().min(2),
-            email: Joi.string().email(),
-            phoneNumber: Joi.string().pattern(/^[0-9]{10}$/),
-            password: Joi.string().min(6),
-            createdAt: Joi.date().default(Date.now),
-            updatedAt: Joi.date().default(Date.now),
-        }),
+    customerOptionalSchema: Joi.object().keys({
+        id: Joi.number().allow(null),
+        name: Joi.string().min(2),
+        email: Joi.string().email(),
+        phoneNumber: Joi.string().pattern(/^[0-9]{10}$/),
+        password: Joi.string().min(6),
+        createdAt: Joi.date().default(Date.now),
+        updatedAt: Joi.date().default(Date.now),
+    }),
     // Product
-    productSchema: Joi.object()
-        .keys({
-            id: Joi.number().allow(null).required(),
-            barcode: Joi.string().required(),
-            name: Joi.string().required(),
-            description: Joi.string().required(),
-            price: Joi.number().positive().required(),
-            quantity: Joi.number().positive().required(),
-            photo: Joi.string().allow(null, ''),
-            tags: Joi.array().items(Joi.string()),
-            createdAt: Joi.date().default(Date.now),
-            updatedAt: Joi.date().default(Date.now),
-        }),
-    productOptionalSchema: Joi.object()
-        .keys({
-            id: Joi.number().allow(null),
-            barcode: Joi.string(),
-            name: Joi.string(),
-            description: Joi.string(),
-            price: Joi.number().positive(),
-            quantity: Joi.number().positive(),
-            photo: Joi.string().allow(null, ''),
-            tags: Joi.array().items(Joi.string()),
-            createdAt: Joi.date().default(Date.now),
-            updatedAt: Joi.date().default(Date.now),
-        }),
+    productSchema: Joi.object().keys({
+        id: Joi.number().allow(null).required(),
+        barcode: Joi.string().required(),
+        name: Joi.string().required(),
+        description: Joi.string().required(),
+        price: Joi.number().positive().required(),
+        quantity: Joi.number().positive().required(),
+        photo: Joi.string().allow(null, ''),
+        tags: Joi.array().items(Joi.string()),
+        createdAt: Joi.date().default(Date.now),
+        updatedAt: Joi.date().default(Date.now),
+    }),
+    productOptionalSchema: Joi.object().keys({
+        id: Joi.number().allow(null),
+        barcode: Joi.string(),
+        name: Joi.string(),
+        description: Joi.string(),
+        price: Joi.number().positive(),
+        quantity: Joi.number().positive(),
+        photo: Joi.string().allow(null, ''),
+        tags: Joi.array().items(Joi.string()),
+        createdAt: Joi.date().default(Date.now),
+        updatedAt: Joi.date().default(Date.now),
+    }),
     // Order
     orderSchema: Joi.object()
         .keys({
             customerId: Joi.number().required().allow(null),
-            items: Joi.array().items(
-                Joi.object({
-                    itemId: Joi.number().required().allow(null),
-                    name: Joi.string().required(),
-                    quantity: Joi.number().required(),
-                    price: Joi.number().required(),
-                })
-            ).required(),
+            items: Joi.array()
+                .items(
+                    Joi.object({
+                        itemId: Joi.number().required().allow(null),
+                        name: Joi.string().required(),
+                        quantity: Joi.number().required(),
+                        price: Joi.number().required(),
+                    })
+                )
+                .required(),
             totalPrice: Joi.number().required(),
             shippingAddress: Joi.string().required(),
             billingAddress: Joi.string().required(),
-            status: Joi.string().valid('pending', 'placed', 'shipped', 'completed', 'cancelled', 'refunded').required(),
+            status: Joi.string()
+                .valid(
+                    'pending',
+                    'placed',
+                    'shipped',
+                    'completed',
+                    'cancelled',
+                    'refunded'
+                )
+                .required(),
             orderedAt: Joi.date(),
             createdAt: Joi.date().default(Date.now),
             updatedAt: Joi.date().default(Date.now),
@@ -129,70 +135,79 @@ const schemas = {
             totalPrice: Joi.number(),
             shippingAddress: Joi.string(),
             billingAddress: Joi.string(),
-            status: Joi.string().valid('pending', 'placed', 'shipped', 'completed', 'cancelled', 'refunded'),
+            status: Joi.string().valid(
+                'pending',
+                'placed',
+                'shipped',
+                'completed',
+                'cancelled',
+                'refunded'
+            ),
             orderedAt: Joi.date(),
             createdAt: Joi.date().default(Date.now),
             updatedAt: Joi.date().default(Date.now),
         })
         .options({ stripUnknown: true }),
     // Cart
-    cartSchema: Joi.object()
-        .keys({
-            id: Joi.number().required().allow(null),
-            customerId: Joi.number().required(),
-            items: Joi.array().items(
-                Joi.object({
-                    itemId: Joi.number().required(),
-                    name: Joi.string().required(),
-                    quantity: Joi.number().required(),
-                    price: Joi.number().required(),
-                }),
-            ),
-            totalPrice: Joi.number().required(),
-            status: Joi.string().valid('new', 'active', 'completed', 'expired', 'empty').required(),
-            createdAt: Joi.date().default(Date.now),
-            updatedAt: Joi.date().default(Date.now),
-        }),
-    cartOptionalSchema: Joi.object()
-        .keys({
-            id: Joi.number().allow(null),
-            customerId: Joi.number(),
-            items: Joi.array().items(
-                Joi.object({
-                    itemId: Joi.number(),
-                    name: Joi.string(),
-                    quantity: Joi.number(),
-                    price: Joi.number(),
-                }),
-            ),
-            totalPrice: Joi.number(),
-            status: Joi.string().valid('new', 'active', 'completed', 'expired', 'empty'),
-            createdAt: Joi.date().default(Date.now),
-            updatedAt: Joi.date().default(Date.now),
-        }),
+    cartSchema: Joi.object().keys({
+        id: Joi.number().required().allow(null),
+        customerId: Joi.number().required(),
+        items: Joi.array().items(
+            Joi.object({
+                itemId: Joi.number().required(),
+                name: Joi.string().required(),
+                quantity: Joi.number().required(),
+                price: Joi.number().required(),
+            })
+        ),
+        totalPrice: Joi.number().required(),
+        status: Joi.string()
+            .valid('new', 'active', 'completed', 'expired', 'empty')
+            .required(),
+        createdAt: Joi.date().default(Date.now),
+        updatedAt: Joi.date().default(Date.now),
+    }),
+    cartOptionalSchema: Joi.object().keys({
+        id: Joi.number().allow(null),
+        customerId: Joi.number(),
+        items: Joi.array().items(
+            Joi.object({
+                itemId: Joi.number(),
+                name: Joi.string(),
+                quantity: Joi.number(),
+                price: Joi.number(),
+            })
+        ),
+        totalPrice: Joi.number(),
+        status: Joi.string().valid(
+            'new',
+            'active',
+            'completed',
+            'expired',
+            'empty'
+        ),
+        createdAt: Joi.date().default(Date.now),
+        updatedAt: Joi.date().default(Date.now),
+    }),
     // Product rating
-    productRatingSchema: Joi.object()
-        .keys({
-            id: Joi.string().allow(null).required(),
-            productId: Joi.number().required(),
-            customerId: Joi.number().required(),
-            rating: Joi.number().required(),
-            comment: Joi.string().required(),
-            createdAt: Joi.date().default(Date.now),
-            updatedAt: Joi.date().default(Date.now),
-        }),
-    productRatingOptionalSchema: Joi.object()
-        .keys({
-            id: Joi.string().allow(null),
-            productId: Joi.number().required(),
-            customerId: Joi.number().required(),
-            rating: Joi.number().required(),
-            comment: Joi.string().required(),
-            createdAt: Joi.date().default(Date.now),
-            updatedAt: Joi.date().default(Date.now),
-        }),
-
-
+    productRatingSchema: Joi.object().keys({
+        id: Joi.string().allow(null).required(),
+        productId: Joi.number().required(),
+        customerId: Joi.number().required(),
+        rating: Joi.number().required(),
+        comment: Joi.string().required(),
+        createdAt: Joi.date().default(Date.now),
+        updatedAt: Joi.date().default(Date.now),
+    }),
+    productRatingOptionalSchema: Joi.object().keys({
+        id: Joi.string().allow(null),
+        productId: Joi.number().required(),
+        customerId: Joi.number().required(),
+        rating: Joi.number().required(),
+        comment: Joi.string().required(),
+        createdAt: Joi.date().default(Date.now),
+        updatedAt: Joi.date().default(Date.now),
+    }),
 }
 
 const validateBody = (schema) => {

@@ -7,7 +7,7 @@ const Schema = mongoose.Schema
 const ProductSchema = new Schema({
     id: {
         type: Number,
-        default: null
+        default: null,
     },
     barcode: {
         type: String,
@@ -51,9 +51,9 @@ ProductSchema.pre('findOneAndUpdate', function (next) {
 ProductSchema.pre('save', async function (next) {
     try {
         if (!this.id) {
-            this.id = await getNextSequenceValue("product");
+            this.id = await getNextSequenceValue('product')
         }
-        next();
+        next()
     } catch (err) {
         next(err)
     }

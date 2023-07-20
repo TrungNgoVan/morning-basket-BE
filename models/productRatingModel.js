@@ -3,12 +3,12 @@
 const mongoose = require('mongoose')
 const { getNextSequenceValue } = require('../helpers/mongoHelper')
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const ProductRatingSchema = new Schema({
     id: {
         type: String,
-        default: null
+        default: null,
     },
     productId: {
         type: Number,
@@ -24,11 +24,11 @@ const ProductRatingSchema = new Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     updatedAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
 })
 
@@ -40,9 +40,9 @@ ProductRatingSchema.pre('findOneAndUpdate', function (next) {
 ProductRatingSchema.pre('save', async function (next) {
     try {
         if (!this.id) {
-            this.id = await getNextSequenceValue("rating");
+            this.id = await getNextSequenceValue('rating')
         }
-        next();
+        next()
     } catch (err) {
         next(err)
     }

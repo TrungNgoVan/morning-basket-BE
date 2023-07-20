@@ -1,4 +1,4 @@
-const ProductRating = require('../models/productRatingModel');
+const ProductRating = require('../models/productRatingModel')
 
 const createProductRating = async (req, res, next) => {
     try {
@@ -13,22 +13,23 @@ const createProductRating = async (req, res, next) => {
     }
 }
 
-
 const getProductRatings = async (req, res, next) => {
     try {
-        const productRatings = await ProductRating.find({});
+        const productRatings = await ProductRating.find({})
         if (!productRatings) {
             return res.status(404).json
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 const getProductRatingById = async (req, res, next) => {
     try {
         const { productRatingID } = req.value.params
-        const productRating = await ProductRating.findOne({ id: productRatingID })
+        const productRating = await ProductRating.findOne({
+            id: productRatingID,
+        })
         if (productRating === null) {
             return res.status(404).json({
                 error: {
@@ -55,9 +56,13 @@ const updateProductRating = async (req, res, next) => {
             })
         } else {
             const newProductRating = req.value.body
-            await ProductRating.findOneAndUpdate({ id: productRatingID }, newProductRating, {
-                updatedAt: Date.now(),
-            })
+            await ProductRating.findOneAndUpdate(
+                { id: productRatingID },
+                newProductRating,
+                {
+                    updatedAt: Date.now(),
+                }
+            )
             return res.status(200).json({
                 message: `ProductRating ${productRating.id} updated successfully`,
             })
@@ -70,7 +75,9 @@ const updateProductRating = async (req, res, next) => {
 const deleteProductRating = async (req, res, next) => {
     try {
         const { productRatingID } = req.value.params
-        const productRating = await ProductRating.findOneAndDelete({ id: productRatingID })
+        const productRating = await ProductRating.findOneAndDelete({
+            id: productRatingID,
+        })
         if (productRating === null) {
             return res.status(404).json({
                 error: {
@@ -92,5 +99,5 @@ module.exports = {
     deleteProductRating,
     getProductRatingById,
     getProductRatings,
-    updateProductRating
+    updateProductRating,
 }
