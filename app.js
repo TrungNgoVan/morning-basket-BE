@@ -28,6 +28,7 @@ const customerRouter = require('./routes/customerRoute')
 const orderRouter = require('./routes/orderRoute')
 const cartRouter = require('./routes/cartRoute')
 const productRatingRouter = require('./routes/productRatingRoute')
+const contactRouter = require('./routes/contactRoute')
 
 const credentials = env.MONGODB_CERT
 const conn = mongoose

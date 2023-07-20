@@ -4,6 +4,7 @@ const express = require('express')
 const router = express.Router()
 
 const OrderController = require('../controllers/orderController')
+const { authenticateToken } = require('../middlewares/authenticateToken')
 
 const {
     schemas,
@@ -14,7 +15,11 @@ const {
 router
     .route('/')
     .get(OrderController.getOrders)
-    .post(validateBody(schemas.orderSchema), OrderController.createOrder)
+    .post(
+        authenticateToken,
+        validateBody(schemas.orderSchema),
+        OrderController.createOrder
+    )
 
 router
     .route('/:orderID')
