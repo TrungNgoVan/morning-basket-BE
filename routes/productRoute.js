@@ -15,7 +15,10 @@ const {
 router
     .route('/')
     .get(productController.getAllProducts)
-    .post(productController.createProduct)
+    .post(
+        validateBody(schemas.productSchema),
+        productController.createProduct
+    )
 
 router
     .route('/:productID')

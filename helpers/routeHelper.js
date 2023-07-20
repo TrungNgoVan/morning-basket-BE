@@ -70,7 +70,7 @@ const schemas = {
     // Product
     productSchema: Joi.object()
         .keys({
-            id: Joi.number().allow(null).required(),
+            id: Joi.number().allow(null),
             barcode: Joi.string().required(),
             name: Joi.string().required(),
             description: Joi.string().required(),
