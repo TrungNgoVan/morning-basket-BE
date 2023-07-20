@@ -29,6 +29,7 @@ const customerRouter = require('./routes/customerRoute')
 const orderRouter = require('./routes/orderRoute')
 const cartRouter = require('./routes/cartRoute')
 const productRatingRouter = require('./routes/productRatingRoute')
+const contactRouter = require('./routes/contactRoute')
 
 console.log(process.env.MONGODB_URI)
 const credentials = process.env.MONGODB_CERT
@@ -73,6 +74,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 // Router
 
+app.use('/contact', contactRouter)
 app.use('/products', productRouter)
 app.use('/customers', customerRouter)
 app.use('/orders', orderRouter)

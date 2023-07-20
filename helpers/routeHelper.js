@@ -208,6 +208,13 @@ const schemas = {
         createdAt: Joi.date().default(Date.now),
         updatedAt: Joi.date().default(Date.now),
     }),
+    // Contact
+    contactSchema: Joi.object().keys({
+        id: Joi.number().allow(null),
+        name: Joi.string().min(2).required(),
+        mail: Joi.string().email(),
+        message: Joi.string().required(),
+    }),
 }
 
 const validateBody = (schema) => {
