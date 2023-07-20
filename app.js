@@ -13,14 +13,11 @@ const cors = require('cors')
 
 /* eslint-disable no-undef */
 const stage = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'
-require('dotenv').config(`${__dirname}/.env.${stage}`)
+require('dotenv').config({ path: `${__dirname}/.env.${stage}` })
 
 const corsOptions = {
     origin: [
-        'http://localhost:3000',
-        'http://127.0.0.1:3000',
-        'http://localhost:5173',
-        'http://127.0.0.1:5173',
+        process.env.FRONTEND_URL
     ],
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
