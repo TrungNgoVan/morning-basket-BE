@@ -15,9 +15,7 @@ const cors = require('cors')
 const { env } = require('./configs/index')
 
 const corsOptions = {
-    origin: [
-        env.FRONTEND_URL
-    ],
+    origin: [env.FRONTEND_URL],
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 }
@@ -72,7 +70,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 // Router
 
-var rootRouter = express.Router();
+var rootRouter = express.Router()
 rootRouter.use('/products', productRouter)
 rootRouter.use('/customers', customerRouter)
 rootRouter.use('/orders', orderRouter)

@@ -18,5 +18,5 @@ module.exports = {
         PORT: process.env.PORT,
         FRONTEND_URL: process.env.FRONTEND_URL,
         ROUTE_PREFIX: process.env.ROUTE_PREFIX,
-    }
+    },
 }

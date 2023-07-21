@@ -45,5 +45,5 @@ const getContacts = async (req, res, next) => {
 module.exports = {
     createContact,
     deleteContact,
-    getContacts
+    getContacts,
 }

@@ -14,10 +14,7 @@ const {
 router
     .route('/')
     .get(productController.getAllProducts)
-    .post(
-        validateBody(schemas.productSchema),
-        productController.createProduct
-    )
+    .post(validateBody(schemas.productSchema), productController.createProduct)
 
 router
     .route('/:productID')
