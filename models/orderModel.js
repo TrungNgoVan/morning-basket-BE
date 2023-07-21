@@ -1,7 +1,7 @@
 'use strict'
 
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 const { getNextSequenceValue } = require('../helpers/mongoHelper')
 
 const orderStatus = {
@@ -16,10 +16,10 @@ const orderStatus = {
 const OrderSchema = new Schema({
     id: {
         type: Number,
-        default: null
+        default: null,
     },
     customerId: {
-        type: Number
+        type: Number,
     },
     items: [
         {
@@ -52,16 +52,16 @@ const OrderSchema = new Schema({
     },
     orderedAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     updatedAt: {
         type: Date,
-        default: Date.now
-    }
+        default: Date.now,
+    },
 })
 
 OrderSchema.pre('findOneAndUpdate', function (next) {
@@ -72,9 +72,9 @@ OrderSchema.pre('findOneAndUpdate', function (next) {
 OrderSchema.pre('save', async function (next) {
     try {
         if (!this.id) {
-            this.id = await getNextSequenceValue("order");
+            this.id = await getNextSequenceValue('order')
         }
-        next();
+        next()
     } catch (err) {
         next(err)
     }

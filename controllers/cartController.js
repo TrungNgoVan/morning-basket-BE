@@ -1,4 +1,3 @@
-
 const Cart = require('../models/cartModel')
 const Customer = require('../models/customerModel')
 const { decodeAToken } = require('../middlewares/authenticateToken')
@@ -9,11 +8,11 @@ const createCart = async (req, res, next) => {
         const newCart = new Cart(cart)
         await newCart.save()
         return res.status(200).json({
-            message: "Create cart success",
-            cart: newCart
+            message: 'Create cart success',
+            cart: newCart,
         })
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -23,15 +22,15 @@ const deleteCart = async (req, res, next) => {
         const cart = await Cart.findOneAndDelete({ id: cartID })
         if (!cart) {
             return res.status(404).json({
-                message: "Cart not exist"
+                message: 'Cart not exist',
             })
         } else {
             return res.status(200).json({
-                message: "Delete cart success"
+                message: 'Delete cart success',
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -42,10 +41,10 @@ const getCartByCustomerID = async (req, res, next) => {
         const customer = await Customer.findById(decoded.sub)
         const carts = await Cart.find({ customerId: customer.id })
         return res.status(200).json({
-            carts
+            carts,
         })
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -55,26 +54,26 @@ const getCartByID = async (req, res, next) => {
         const cart = await Cart.findOne({ id: cartID })
         if (!cart) {
             return res.status(404).json({
-                message: "Cart not exist"
+                message: 'Cart not exist',
             })
         } else {
             return res.status(200).json({
-                cart
+                cart,
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 const getCarts = async (req, res, next) => {
     try {
-        const carts = await Cart.find({});
+        const carts = await Cart.find({})
         return res.status(200).json({
-            carts
+            carts,
         })
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -85,15 +84,15 @@ const updateCart = async (req, res, next) => {
         const cart = await Cart.findOneAndUpdate({ id: cartID }, newCart)
         if (!cart) {
             return res.status(404).json({
-                message: "Cart not exist"
+                message: 'Cart not exist',
             })
         } else {
             return res.status(200).json({
-                message: "Update cart success",
+                message: 'Update cart success',
             })
         }
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -103,5 +102,5 @@ module.exports = {
     getCartByCustomerID,
     getCartByID,
     getCarts,
-    updateCart
+    updateCart,
 }

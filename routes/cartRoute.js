@@ -14,14 +14,8 @@ const {
 
 router
     .route('/')
-    .get(
-        authenticateToken,
-        CartController.getCartByCustomerID
-    )
-    .post(
-        validateBody(schemas.cartSchema),
-        CartController.createCart
-    )
+    .get(authenticateToken, CartController.getCartByCustomerID)
+    .post(validateBody(schemas.cartSchema), CartController.createCart)
 
 router
     .route('/:cartID')
@@ -39,5 +33,4 @@ router
         CartController.deleteCart
     )
 
-
-module.exports = router;
+module.exports = router

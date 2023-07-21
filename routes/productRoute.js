@@ -4,7 +4,6 @@ const express = require('express')
 const router = express.Router()
 
 const productController = require('../controllers/productController')
-const { authenticateToken } = require('../middlewares/authenticateToken')
 
 const {
     schemas,
@@ -24,12 +23,10 @@ router
     .route('/:productID')
     .get(
         validateParam(schemas.idNumberSchema, 'productID'),
-        authenticateToken,
         productController.getProductById
     )
     .post(
         validateParam(schemas.idNumberSchema, 'productID'),
-        authenticateToken,
         validateBody(schemas.productSchema),
         productController.createProduct
     )

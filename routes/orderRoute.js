@@ -4,6 +4,7 @@ const express = require('express')
 const router = express.Router()
 
 const OrderController = require('../controllers/orderController')
+const { authenticateToken } = require('../middlewares/authenticateToken')
 
 const {
     schemas,
@@ -13,10 +14,9 @@ const {
 
 router
     .route('/')
-    .get(
-        OrderController.getOrders
-    )
+    .get(OrderController.getOrders)
     .post(
+        authenticateToken,
         validateBody(schemas.orderSchema),
         OrderController.createOrder
     )
@@ -37,4 +37,4 @@ router
         OrderController.deleteOrder
     )
 
-module.exports = router;
+module.exports = router

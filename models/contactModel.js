@@ -4,35 +4,20 @@ const mongoose = require('mongoose')
 const { getNextSequenceValue } = require('../helpers/mongoHelper')
 const Schema = mongoose.Schema
 
-const ProductSchema = new Schema({
+const ContactSchema = new Schema({
     id: {
         type: Number,
         default: null,
     },
-    barcode: {
+    mail: {
         type: String,
     },
     name: {
         type: String,
     },
-    description: {
+    message: {
         type: String,
     },
-    price: {
-        type: Number,
-    },
-    quantity: {
-        type: Number,
-        default: 0,
-    },
-    photo: {
-        type: String,
-    },
-    tags: [
-        {
-            type: String,
-        },
-    ],
     createdAt: {
         type: Date,
         default: Date.now,
@@ -43,15 +28,15 @@ const ProductSchema = new Schema({
     },
 })
 
-ProductSchema.pre('findOneAndUpdate', function (next) {
+ContactSchema.pre('findOneAndUpdate', function (next) {
     this.set({ updatedAt: new Date() })
     next()
 })
 
-ProductSchema.pre('save', async function (next) {
+ContactSchema.pre('save', async function (next) {
     try {
         if (!this.id) {
-            this.id = await getNextSequenceValue('product')
+            this.id = await getNextSequenceValue('contact')
         }
         next()
     } catch (err) {
@@ -59,6 +44,6 @@ ProductSchema.pre('save', async function (next) {
     }
 })
 
-const Product = mongoose.model('Product', ProductSchema)
+const Contact = mongoose.model('Contact', ContactSchema)
 
-module.exports = Product
+module.exports = Contact
