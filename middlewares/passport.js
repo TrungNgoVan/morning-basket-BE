@@ -41,10 +41,11 @@ passport.use(
     'email',
     new LocalStrategy(
         {
-            usernameField: 'email',
+            usernameField: 'username',
         },
         async (email, password, done) => {
             try {
+                console.log('Sign in with email');
                 const customer = await Customer.findOne({ email })
                 if (!customer) {
                     return done(
@@ -78,10 +79,11 @@ passport.use(
     'phoneNumber',
     new LocalStrategy(
         {
-            usernameField: 'phoneNumber',
+            usernameField: 'username',
         },
         async (phoneNumber, password, done) => {
             try {
+                console.log('Sign in with phone number');
                 const customer = await Customer.findOne({ phoneNumber })
                 if (!customer) {
                     return done(
