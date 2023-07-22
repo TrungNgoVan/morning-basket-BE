@@ -40,9 +40,6 @@ passport.use(
 passport.use(
     'email',
     new LocalStrategy(
-        {
-            usernameField: 'email',
-        },
         async (email, password, done) => {
             try {
                 const customer = await Customer.findOne({ email })
@@ -77,9 +74,6 @@ passport.use(
 passport.use(
     'phoneNumber',
     new LocalStrategy(
-        {
-            usernameField: 'phoneNumber',
-        },
         async (phoneNumber, password, done) => {
             try {
                 const customer = await Customer.findOne({ phoneNumber })

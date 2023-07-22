@@ -11,6 +11,7 @@ const {
     schemas,
     validateParam,
     validateBody,
+    validateSignInBody
 } = require('../helpers/routeHelper')
 
 router
@@ -27,11 +28,12 @@ router
 
 router.route('/signin').post(
     validateBody(schemas.authSignInSchema),
+    validateSignInBody,
     (req, res, next) => {
-        const email = req.body.email
-        const phoneNumber = req.body.phoneNumber
+        const email = req.value.body.email
+        const phoneNumber = req.value.body.phoneNumber
         const strategy =
-            email != null && phoneNumber == null ? 'email' : 'phoneNumber'
+            email != undefined && phoneNumber == undefined ? 'email' : 'phoneNumber'
         passport.authenticate(strategy, { session: false })(req, res, next)
     },
     CustomerController.signin

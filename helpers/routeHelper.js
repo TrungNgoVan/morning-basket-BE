@@ -17,13 +17,9 @@ const schemas = {
 
     authSignInSchema: Joi.object()
         .keys({
-            email: Joi.string().email(),
-            phoneNumber: Joi.string().pattern(/^[0-9]{10}$/),
+            username: Joi.string().required(),
             password: Joi.string().min(6).required(),
-        })
-        .xor('email', 'phoneNumber')
-        .with('email', 'password')
-        .with('phoneNumber', 'password'),
+        }),
     //! ID Schema
     // id mongodb
     idSchema: Joi.object().keys({
@@ -251,8 +247,24 @@ const validateParam = (schema, name) => {
     }
 }
 
+const validateSignInBody = (req, res, next) => {
+    const { username, password } = req.body;
+    const isEmail = username.includes('@');
+    const isPhoneNumber = !isEmail;
+    if (isEmail) {
+        req.value = { body: { email: username, password } };
+    } else if (isPhoneNumber) {
+        req.value = { body: { phoneNumber: username, password } };
+    } else {
+        return res.status(400).json({ message: 'Invalid username' });
+    }
+    next();
+};
+
+
 module.exports = {
     schemas,
     validateParam,
     validateBody,
+    validateSignInBody
 }
