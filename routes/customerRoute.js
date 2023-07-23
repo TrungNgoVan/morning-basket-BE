@@ -23,6 +23,12 @@ router
     )
 
 router
+    .route('/info')
+    .get(
+        CustomerController.getInfoCustomer
+    )
+
+router
     .route('/signup')
     .post(validateBody(schemas.authSignUpSchema), CustomerController.signup)
 

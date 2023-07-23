@@ -1,6 +1,6 @@
 'use strict'
 const Customer = require('../models/customerModel')
-const { encodeAToken } = require('../middlewares/authenticateToken')
+const { encodeAToken, decodeAToken } = require('../middlewares/authenticateToken')
 
 /* eslint-disable no-unused-vars */
 
@@ -72,6 +72,19 @@ const getCustomers = async (req, res, next) => {
         })
     } catch (err) {
         next(err)
+    }
+}
+
+const getInfoCustomer = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization
+        const decoded = decodeAToken(token)
+        const customer = await Customer.findById(decoded.sub)
+        return res.status(200).json({
+            customer
+        })
+    } catch (err) {
+        next(err);
     }
 }
 
@@ -198,6 +211,7 @@ module.exports = {
     createCustomer,
     deleteCustomer,
     getCustomerByID,
+    getInfoCustomer,
     getCustomers,
     replaceCustomer,
     secret,
