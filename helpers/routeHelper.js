@@ -101,7 +101,8 @@ const schemas = {
                 .required(),
             totalPrice: Joi.number().required(),
             shippingAddress: Joi.string().required(),
-            billingAddress: Joi.string().required(),
+            billingAddress: Joi.string().required().allow(null),
+            addressNote: Joi.string().required().allow(null),
             status: Joi.string()
                 .valid(
                     'pending',
@@ -110,6 +111,14 @@ const schemas = {
                     'completed',
                     'cancelled',
                     'refunded'
+                )
+                .optional()
+                .default("pending"),
+            paymentMethod: Joi.string()
+                .valid(
+                    'credit',
+                    'debit',
+                    'cash'
                 )
                 .required(),
             orderedAt: Joi.date(),

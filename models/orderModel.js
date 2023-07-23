@@ -13,6 +13,12 @@ const orderStatus = {
     REFUNDED: 'refunded',
 }
 
+const orderPaymentMethod = {
+    CREDIT: 'credit',
+    DEBIT: 'debit',
+    CASH: 'cash',
+}
+
 const OrderSchema = new Schema({
     id: {
         type: Number,
@@ -46,9 +52,16 @@ const OrderSchema = new Schema({
     billingAddress: {
         type: String,
     },
+    addressNote: {
+        type: String,
+    },
     status: {
         type: String,
         enum: Object.values(orderStatus),
+    },
+    paymentMethod: {
+        type: String,
+        enum: Object.values(orderPaymentMethod),
     },
     orderedAt: {
         type: Date,
