@@ -81,7 +81,6 @@ const getInfoCustomer = async (req, res, next) => {
         const decoded = decodeAToken(token)
         const customer = await Customer.findById(decoded.sub)
         const retCustomer = (({ id, name, phoneNumber, email, createdAt, updatedAt }) => ({ id, name, phoneNumber, email, createdAt, updatedAt }))(customer)
-        console.log(retCustomer)
         return res.status(200).json({
             customer: retCustomer
         })
