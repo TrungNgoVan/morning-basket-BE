@@ -8,7 +8,7 @@ const createCart = async (req, res, next) => {
         const newCart = new Cart(cart)
         await newCart.save()
         return res.status(200).json({
-            message: 'Create cart success',
+            message: 'CART_CREATE:SUCCESS',
             cart: newCart,
         })
     } catch (err) {
@@ -22,11 +22,11 @@ const deleteCart = async (req, res, next) => {
         const cart = await Cart.findOneAndDelete({ id: cartID })
         if (!cart) {
             return res.status(404).json({
-                message: 'Cart not exist',
+                message: 'CART_DELETE:NOT_FOUND',
             })
         } else {
             return res.status(200).json({
-                message: 'Delete cart success',
+                message: 'CART_DELETE:SUCCESS',
             })
         }
     } catch (err) {
@@ -54,7 +54,7 @@ const getCartByID = async (req, res, next) => {
         const cart = await Cart.findOne({ id: cartID })
         if (!cart) {
             return res.status(404).json({
-                message: 'Cart not exist',
+                message: 'CART_GET:NOT_FOUND',
             })
         } else {
             return res.status(200).json({
@@ -84,11 +84,11 @@ const updateCart = async (req, res, next) => {
         const cart = await Cart.findOneAndUpdate({ id: cartID }, newCart)
         if (!cart) {
             return res.status(404).json({
-                message: 'Cart not exist',
+                message: 'CART_UPDATE:NOT_FOUND',
             })
         } else {
             return res.status(200).json({
-                message: 'Update cart success',
+                message: 'CART_UPDATE:SUCCESS',
             })
         }
     } catch (err) {

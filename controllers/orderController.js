@@ -6,7 +6,7 @@ const createOrder = async (req, res, next) => {
         const newOrder = new Order(order)
         await newOrder.save()
         return res.status(200).json({
-            message: 'Create order success',
+            message: 'ORDER_CREATE:SUCCESS',
             order: newOrder,
         })
     } catch (err) {
@@ -21,12 +21,12 @@ const deleteOrder = async (req, res, next) => {
         if (!order) {
             return res.status(404).json({
                 error: {
-                    message: 'Order not exist',
+                    message: 'ORDER_DELETE:NOT_FOUND',
                 },
             })
         } else {
             return res.status(200).json({
-                message: 'Delete order success',
+                message: 'ORDER_DELETE:SUCCESS',
             })
         }
     } catch (err) {
@@ -40,7 +40,7 @@ const getOrderByID = async (req, res, next) => {
         const order = await Order.findOne({ id: orderID })
         if (!order) {
             return res.status(404).json({
-                message: 'Order not exist',
+                message: 'ORDER_GET:NOT_FOUND',
             })
         } else {
             return res.status(200).json({
@@ -70,11 +70,11 @@ const updateOrder = async (req, res, next) => {
         const order = await Order.findOneAndUpdate({ id: orderID }, newOrder)
         if (!order) {
             return res.status(404).json({
-                message: 'Order not exist',
+                message: 'ORDER_UPDATE:NOT_FOUND',
             })
         } else {
             return res.status(200).json({
-                message: 'Update order success',
+                message: 'ORDER_UPDATE:SUCCESS',
             })
         }
     } catch (err) {

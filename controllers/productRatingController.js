@@ -6,7 +6,7 @@ const createProductRating = async (req, res, next) => {
         const newProductRating = new ProductRating(productRating)
         await newProductRating.save()
         return res.status(201).json({
-            message: `ProductRating ${newProductRating.id} created successfully`,
+            message: `PRODUCTRATING_CREATE:SUCCESS_${newProductRating.id}`,
         })
     } catch (err) {
         next(err)
@@ -33,7 +33,7 @@ const getProductRatingById = async (req, res, next) => {
         if (productRating === null) {
             return res.status(404).json({
                 error: {
-                    message: `ProductRating ${productRatingID} not found`,
+                    message: `PRODUCTRATING_GET:NOT_FOUND_${productRatingID}`,
                 },
             })
         } else {
@@ -51,7 +51,7 @@ const updateProductRating = async (req, res, next) => {
         if (productRating === null) {
             return res.status(404).json({
                 error: {
-                    message: `ProductRating ${productRatingID} not found`,
+                    message: `PRODUCTRATING_UPDATE:NOT_FOUND_${productRatingID}`,
                 },
             })
         } else {
@@ -64,7 +64,7 @@ const updateProductRating = async (req, res, next) => {
                 }
             )
             return res.status(200).json({
-                message: `ProductRating ${productRating.id} updated successfully`,
+                message: `PRODUCTRATING_UPDATE:SUCCESS_${productRating.id}`,
             })
         }
     } catch (err) {
@@ -81,12 +81,12 @@ const deleteProductRating = async (req, res, next) => {
         if (productRating === null) {
             return res.status(404).json({
                 error: {
-                    message: `ProductRating ${productRatingID} not found. Not deleted`,
+                    message: `PRODUCTRATING_DELETE:NOT_FOUND_${productRatingID}`,
                 },
             })
         } else {
             return res.status(200).json({
-                message: `ProductRating ${productRating.id} deleted`,
+                message: `PRODUCTRATING_DELETE:NOT_FOUND_${productRating.id}`,
             })
         }
     } catch (err) {

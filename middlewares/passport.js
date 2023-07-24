@@ -46,7 +46,7 @@ passport.use(
                 if (!customer) {
                     return done(
                         {
-                            message: 'Customer not exist',
+                            message: 'CUSTOMER_SIGNIN:EMAIL_NOT_FOUND',
                         },
                         false
                     )
@@ -57,7 +57,7 @@ passport.use(
                 if (!isCorrectPassword) {
                     return done(
                         {
-                            message: 'Sign in failed',
+                            message: 'CUSTOMER_SIGNIN:PASSWORD_INCORRECT',
                         },
                         false
                     )
@@ -80,7 +80,7 @@ passport.use(
                 if (!customer) {
                     return done(
                         {
-                            message: 'Customer not exist',
+                            message: 'CUSTOMER_SIGNIN:PHONE_NOT_FOUND',
                         },
                         false
                     )
@@ -91,7 +91,7 @@ passport.use(
                 if (!isCorrectPassword) {
                     return done(
                         {
-                            message: 'Sign in failed',
+                            message: 'CUSTOMER_SIGNIN:PASSWORD_INCORRECT',
                         },
                         false
                     )

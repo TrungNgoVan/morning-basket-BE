@@ -24,18 +24,18 @@ const createCustomer = async (req, res, next) => {
             const token = encodeAToken(newCustomer._id)
             res.setHeader('Authorization', token)
             return res.status(201).json({
-                message: 'Create customer successfully',
+                message: 'CUSTOMER_CREATE:SUCCESS',
             })
         } else if (foundCustomer.email === email) {
             return res.status(403).json({
                 error: {
-                    message: 'Email already exists',
+                    message: 'CUSTOMER_CREATE:EMAIL_EXIST',
                 },
             })
         } else if (foundCustomer.phoneNumber === phoneNumber) {
             return res.status(403).json({
                 error: {
-                    message: 'Phone number already exists',
+                    message: 'CUSTOMER_CREATE:PHONE_EXIST',
                 },
             })
         }
@@ -51,12 +51,12 @@ const deleteCustomer = async (req, res, next) => {
         if (!customer) {
             return res.status(404).json({
                 error: {
-                    message: 'Customer not exist',
+                    message: 'CUSTOMER_DELETE:NOT_FOUND',
                 },
             })
         } else {
             return res.status(200).json({
-                message: 'Delete customer success',
+                message: 'CUSTOMER_DELETE:SUCCESS',
             })
         }
     } catch (err) {
@@ -97,7 +97,7 @@ const getCustomerByID = async (req, res, next) => {
         if (!customer) {
             return res.status(404).json({
                 error: {
-                    message: 'Customer not exist',
+                    message: 'CUSTOMER_GET:NOT_FOUND',
                 },
             })
         } else {
@@ -117,14 +117,14 @@ const replaceCustomer = async (req, res, next) => {
         if (!customer) {
             return res.status(404).json({
                 error: {
-                    message: 'Customer not exist',
+                    message: 'CUSTOMER_REPLACE:NOT_FOUND',
                 },
             })
         } else {
             const newCustomer = req.value.body
             await Customer.findOneAndUpdate({ id: customerID }, newCustomer)
             return res.status(200).json({
-                message: 'Replace customer success',
+                message: 'CUSTOMER_REPLACE:SUCCESS',
             })
         }
     } catch (err) {
@@ -140,14 +140,14 @@ const updateCustomer = async (req, res, next) => {
         if (!customer) {
             return res.status(404).json({
                 error: {
-                    message: 'Customer not exist',
+                    message: 'CUSTOMER_UPDATE:NOT_FOUND',
                 },
             })
         } else {
             const newCustomer = req.value.body
             await Customer.findOneAndUpdate({ id: customerID }, newCustomer)
             return res.status(200).json({
-                message: 'Update customer success',
+                message: 'CUSTOMER_UPDATE:SUCCESS',
             })
         }
     } catch (err) {
@@ -165,7 +165,7 @@ const signin = async (req, res, next) => {
     const token = encodeAToken(req.user._id)
     res.setHeader('Authorization', token)
     return res.status(200).json({
-        message: 'Sign in success',
+        message: 'CUSTOMER_SIGNIN:SUCCESS',
         name: req.user.name,
         token: token,
     })
@@ -190,18 +190,18 @@ const signup = async (req, res, next) => {
         const token = encodeAToken(newCustomer.id)
         res.setHeader('Authorization', token)
         return res.status(201).json({
-            message: 'Sign up successfully',
+            message: 'CUSTOMER_SIGNUP:SUCCESS',
         })
     } else if (foundCustomer.email === email) {
         return res.status(403).json({
             error: {
-                message: 'Email already exists',
+                message: 'CUSTOMER_SIGNUP:EMAIL_EXIST',
             },
         })
     } else if (foundCustomer.phoneNumber === phoneNumber) {
         return res.status(403).json({
             error: {
-                message: 'Phone number already exists',
+                message: 'CUSTOMER_SIGNUP:PHONE_EXIST',
             },
         })
     }

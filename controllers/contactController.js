@@ -6,7 +6,7 @@ const createContact = async (req, res, next) => {
         const newContact = new Contact(contact)
         await newContact.save()
         return res.status(200).json({
-            message: 'Create contact success',
+            message: 'CONTACT_CREATE:SUCCESS',
             cart: newContact,
         })
     } catch (err) {
@@ -20,11 +20,11 @@ const deleteContact = async (req, res, next) => {
         const contact = await Contact.findOneAndDelete({ id: contactID })
         if (!contact) {
             return res.status(404).json({
-                message: 'Contact not exist',
+                message: 'CONTACT_DELETE:NOT_FOUND',
             })
         } else {
             return res.status(200).json({
-                message: 'Delete contact success',
+                message: 'CONTACT_DELETE:SUCCESS',
             })
         }
     } catch (err) {

@@ -11,7 +11,7 @@ const schemas = {
             phoneNumber: Joi.string().pattern(/^[0-9]{10}$/),
             password: Joi.string().min(6).required(),
         })
-        .xor('email', 'phoneNumber')
+        // .or('email', 'phoneNumber')
         .with('email', 'password')
         .with('phoneNumber', 'password'),
 
@@ -265,7 +265,7 @@ const validateSignInBody = (req, res, next) => {
     } else if (isPhoneNumber) {
         req.value = { body: { phoneNumber: username, password } };
     } else {
-        return res.status(400).json({ message: 'Invalid username' });
+        return res.status(400).json({ message: 'CUSTOMER_SIGNIN:USERNAME_INVALID' });
     }
     next();
 };

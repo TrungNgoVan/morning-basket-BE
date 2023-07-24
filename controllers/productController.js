@@ -8,7 +8,7 @@ const createProduct = async (req, res, next) => {
         const newProduct = new Product(product)
         await newProduct.save()
         return res.status(201).json({
-            message: `Product ${newProduct.id} created successfully`,
+            message: `PRODUCT_CREATE:SUCCESS_${newProduct.id}`,
         })
     } catch (err) {
         next(err)
@@ -31,7 +31,7 @@ const getProductById = async (req, res, next) => {
         if (product === null) {
             return res.status(404).json({
                 error: {
-                    message: `Product ${productID} not found`,
+                    message: `PRODUCT_GET:NOT_FOUND_${productID}`,
                 },
             })
         } else {
@@ -49,7 +49,7 @@ const updateProduct = async (req, res, next) => {
         if (product === null) {
             return res.status(404).json({
                 error: {
-                    message: `Product ${productID} not found`,
+                    message: `PRODUCT_UPDATE:NOT_FOUND_${productID}`,
                 },
             })
         } else {
@@ -58,7 +58,7 @@ const updateProduct = async (req, res, next) => {
                 updatedAt: Date.now(),
             })
             return res.status(200).json({
-                message: `Product ${product.id} updated successfully`,
+                message: `PRODUCT_UPDATE:SUCCESS_${product.id}`,
             })
         }
     } catch (err) {
@@ -73,12 +73,12 @@ const deleteProduct = async (req, res, next) => {
         if (product === null) {
             return res.status(404).json({
                 error: {
-                    message: `Product ${productID} not found. Not deleted`,
+                    message: `PRODUCT_DELETE:NOT_FOUND_${productID}`,
                 },
             })
         } else {
             return res.status(200).json({
-                message: `Product ${product.id} deleted`,
+                message: `PRODUCT_DELETE:SUCCESS_${product.id}`,
             })
         }
     } catch (err) {
