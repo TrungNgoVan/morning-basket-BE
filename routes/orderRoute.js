@@ -22,6 +22,10 @@ router
     )
 
 router
+    .route('/history')
+    .get(OrderController.getOrderByCustomerID)
+
+router
     .route('/:orderID')
     .get(
         validateParam(schemas.idNumberSchema, 'orderID'),
