@@ -1,4 +1,6 @@
 const Order = require('../models/orderModel')
+const Customer = require('../models/customerModel')
+const { decodeAToken } = require('../middlewares/authenticateToken')
 
 const createOrder = async (req, res, next) => {
     try {
@@ -34,6 +36,20 @@ const deleteOrder = async (req, res, next) => {
     }
 }
 
+const getOrderByCustomerID = async (req, res, next) => {
+    try {
+        const token = req.headers.authorization
+        const decoded = decodeAToken(token)
+        const customer = await Customer.findById(decoded.sub)
+        const orders = await Order.find({ customerId: customer.id })
+        return res.status(200).json({
+            orders,
+        })
+    } catch (err) {
+        next(err)
+    }
+}
+
 const getOrderByID = async (req, res, next) => {
     try {
         const { orderID } = req.value.params
@@ -63,6 +79,8 @@ const getOrders = async (req, res, next) => {
     }
 }
 
+
+
 const updateOrder = async (req, res, next) => {
     try {
         const { orderID } = req.value.params
@@ -86,6 +104,7 @@ module.exports = {
     createOrder,
     deleteOrder,
     getOrderByID,
+    getOrderByCustomerID,
     getOrders,
     updateOrder,
 }
