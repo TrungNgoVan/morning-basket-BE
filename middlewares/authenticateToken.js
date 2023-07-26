@@ -4,10 +4,10 @@ const { JWT_SECRET } = require('../configs/index')
 const encodeAToken = (customerID) => {
     return jwt.sign(
         {
-            iss: 'Henry',
+            iss: 'Morning-Basket',
             sub: customerID,
             iat: new Date().getTime(),
-            exp: new Date().setDate(new Date().getDate() + 3),
+            exp: new Date().setDate(new Date().getDate() + 1),
         },
         JWT_SECRET
     )
@@ -23,8 +23,8 @@ const decodeAToken = (token) => {
 }
 
 const authenticateToken = (req, res, next) => {
-    const token = req.headers.authorization
-
+    // const token = req.headers.authorization
+    const token = req.cookies.access_token
     if (!token) {
         return res
             .status(401)

@@ -21,9 +21,7 @@ router
         OrderController.createOrder
     )
 
-router
-    .route('/history')
-    .get(OrderController.getOrderByCustomerID)
+router.route('/history').get(OrderController.getOrderByCustomerID)
 
 router
     .route('/:orderID')

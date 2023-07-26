@@ -39,69 +39,61 @@ passport.use(
 // Passport-local for email
 passport.use(
     'email',
-    new LocalStrategy(
-        async (email, password, done) => {
-            try {
-                const customer = await Customer.findOne({ email })
-                if (!customer) {
-                    return done(
-                        {
-                            message: 'CUSTOMER_SIGNIN:EMAIL_NOT_FOUND',
-                        },
-                        false
-                    )
-                }
-                const isCorrectPassword = await customer.isValidPassword(
-                    password
+    new LocalStrategy(async (email, password, done) => {
+        try {
+            const customer = await Customer.findOne({ email })
+            if (!customer) {
+                return done(
+                    {
+                        message: 'CUSTOMER_SIGNIN:EMAIL_NOT_FOUND',
+                    },
+                    false
                 )
-                if (!isCorrectPassword) {
-                    return done(
-                        {
-                            message: 'CUSTOMER_SIGNIN:PASSWORD_INCORRECT',
-                        },
-                        false
-                    )
-                }
-                done(null, customer)
-            } catch (err) {
-                done(err, false)
             }
+            const isCorrectPassword = await customer.isValidPassword(password)
+            if (!isCorrectPassword) {
+                return done(
+                    {
+                        message: 'CUSTOMER_SIGNIN:PASSWORD_INCORRECT',
+                    },
+                    false
+                )
+            }
+            done(null, customer)
+        } catch (err) {
+            done(err, false)
         }
-    )
+    })
 )
 
 // Passport-local for phone number
 passport.use(
     'phoneNumber',
-    new LocalStrategy(
-        async (phoneNumber, password, done) => {
-            try {
-                const customer = await Customer.findOne({ phoneNumber })
-                if (!customer) {
-                    return done(
-                        {
-                            message: 'CUSTOMER_SIGNIN:PHONE_NOT_FOUND',
-                        },
-                        false
-                    )
-                }
-                const isCorrectPassword = await customer.isValidPassword(
-                    password
+    new LocalStrategy(async (phoneNumber, password, done) => {
+        try {
+            const customer = await Customer.findOne({ phoneNumber })
+            if (!customer) {
+                return done(
+                    {
+                        message: 'CUSTOMER_SIGNIN:PHONE_NOT_FOUND',
+                    },
+                    false
                 )
-                if (!isCorrectPassword) {
-                    return done(
-                        {
-                            message: 'CUSTOMER_SIGNIN:PASSWORD_INCORRECT',
-                        },
-                        false
-                    )
-                }
-                done(null, customer)
-            } catch (err) {
-                done(err, false)
             }
+            const isCorrectPassword = await customer.isValidPassword(password)
+            if (!isCorrectPassword) {
+                return done(
+                    {
+                        message: 'CUSTOMER_SIGNIN:PASSWORD_INCORRECT',
+                    },
+                    false
+                )
+            }
+            done(null, customer)
+        } catch (err) {
+            done(err, false)
         }
-    )
+    })
 )
 
 passport.serializeUser((customer, done) => {

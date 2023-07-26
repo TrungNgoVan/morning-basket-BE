@@ -11,7 +11,7 @@ const {
     schemas,
     validateParam,
     validateBody,
-    validateSignInBody
+    validateSignInBody,
 } = require('../helpers/routeHelper')
 
 router
@@ -22,11 +22,7 @@ router
         CustomerController.createCustomer
     )
 
-router
-    .route('/info')
-    .get(
-        CustomerController.getInfoCustomer
-    )
+router.route('/info').get(CustomerController.getInfoCustomer)
 
 router
     .route('/signup')
@@ -39,7 +35,9 @@ router.route('/signin').post(
         const email = req.value.body.email
         const phoneNumber = req.value.body.phoneNumber
         const strategy =
-            email != undefined && phoneNumber == undefined ? 'email' : 'phoneNumber'
+            email != undefined && phoneNumber == undefined
+                ? 'email'
+                : 'phoneNumber'
         passport.authenticate(strategy, { session: false })(req, res, next)
     },
     CustomerController.signin

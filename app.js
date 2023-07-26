@@ -10,6 +10,7 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const crypto = require('crypto')
 const cors = require('cors')
+const cookieParser = require('cookie-parser')
 
 /* eslint-disable no-undef */
 const { env } = require('./configs/index')
@@ -68,6 +69,7 @@ app.use(
 app.use(bodyParser.json())
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(cookieParser())
 // Router
 
 var rootRouter = express.Router()

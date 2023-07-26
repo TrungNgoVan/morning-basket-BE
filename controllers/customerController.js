@@ -1,6 +1,9 @@
 'use strict'
 const Customer = require('../models/customerModel')
-const { encodeAToken, decodeAToken } = require('../middlewares/authenticateToken')
+const {
+    encodeAToken,
+    decodeAToken,
+} = require('../middlewares/authenticateToken')
 
 /* eslint-disable no-unused-vars */
 
@@ -77,15 +80,25 @@ const getCustomers = async (req, res, next) => {
 
 const getInfoCustomer = async (req, res, next) => {
     try {
-        const token = req.headers.authorization
+        // const token = req.headers.authorization
+        const token = req.cookies.access_token
         const decoded = decodeAToken(token)
         const customer = await Customer.findById(decoded.sub)
-        const retCustomer = (({ id, name, phoneNumber, email, createdAt, updatedAt }) => ({ id, name, phoneNumber, email, createdAt, updatedAt }))(customer)
+        const retCustomer = (({
+            id,
+            name,
+            phoneNumber,
+            email,
+            createdAt,
+            updatedAt,
+        }) => ({ id, name, phoneNumber, email, createdAt, updatedAt }))(
+            customer
+        )
         return res.status(200).json({
-            customer: retCustomer
+            customer: retCustomer,
         })
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -163,7 +176,13 @@ const secret = async (req, res, next) => {
 
 const signin = async (req, res, next) => {
     const token = encodeAToken(req.user._id)
-    res.setHeader('Authorization', token)
+    // set header token
+    // res.setHeader('Authorization', token)
+    // save token in cookies
+    res.cookie('access_token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+    })
     return res.status(200).json({
         message: 'CUSTOMER_SIGNIN:SUCCESS',
         name: req.user.name,
@@ -186,9 +205,6 @@ const signup = async (req, res, next) => {
             password,
         })
         await newCustomer.save()
-        // Encode a token
-        const token = encodeAToken(newCustomer.id)
-        res.setHeader('Authorization', token)
         return res.status(201).json({
             message: 'CUSTOMER_SIGNUP:SUCCESS',
         })
@@ -206,6 +222,16 @@ const signup = async (req, res, next) => {
         })
     }
 }
+
+const signout = async (req, res, next) => {
+    try {
+        return res.clearCookie('access_token').status(200).json({
+            message: 'CUSTOMER_SIGNOUT:SUCCESS',
+        })
+    } catch (err) {
+        next(err)
+    }
+}
 /* eslint-disable no-unused-vars */
 
 module.exports = {
@@ -216,6 +242,7 @@ module.exports = {
     getCustomers,
     replaceCustomer,
     secret,
+    signout,
     signin,
     signup,
     updateCustomer,

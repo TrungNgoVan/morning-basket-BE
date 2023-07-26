@@ -15,11 +15,10 @@ const schemas = {
         .with('email', 'password')
         .with('phoneNumber', 'password'),
 
-    authSignInSchema: Joi.object()
-        .keys({
-            username: Joi.string().required(),
-            password: Joi.string().min(6).required(),
-        }),
+    authSignInSchema: Joi.object().keys({
+        username: Joi.string().required(),
+        password: Joi.string().min(6).required(),
+    }),
     //! ID Schema
     // id mongodb
     idSchema: Joi.object().keys({
@@ -113,13 +112,9 @@ const schemas = {
                     'refunded'
                 )
                 .optional()
-                .default("pending"),
+                .default('pending'),
             paymentMethod: Joi.string()
-                .valid(
-                    'credit',
-                    'debit',
-                    'cash'
-                )
+                .valid('credit', 'debit', 'cash')
                 .required(),
             orderedAt: Joi.date(),
             createdAt: Joi.date().default(Date.now),
@@ -257,23 +252,24 @@ const validateParam = (schema, name) => {
 }
 
 const validateSignInBody = (req, res, next) => {
-    const { username, password } = req.body;
-    const isEmail = username.includes('@');
-    const isPhoneNumber = !isEmail;
+    const { username, password } = req.body
+    const isEmail = username.includes('@')
+    const isPhoneNumber = !isEmail
     if (isEmail) {
-        req.value = { body: { email: username, password } };
+        req.value = { body: { email: username, password } }
     } else if (isPhoneNumber) {
-        req.value = { body: { phoneNumber: username, password } };
+        req.value = { body: { phoneNumber: username, password } }
     } else {
-        return res.status(400).json({ message: 'CUSTOMER_SIGNIN:USERNAME_INVALID' });
+        return res
+            .status(400)
+            .json({ message: 'CUSTOMER_SIGNIN:USERNAME_INVALID' })
     }
-    next();
-};
-
+    next()
+}
 
 module.exports = {
     schemas,
     validateParam,
     validateBody,
-    validateSignInBody
+    validateSignInBody,
 }

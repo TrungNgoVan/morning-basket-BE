@@ -38,7 +38,8 @@ const deleteOrder = async (req, res, next) => {
 
 const getOrderByCustomerID = async (req, res, next) => {
     try {
-        const token = req.headers.authorization
+        // const token = req.headers.authorization
+        const token = req.cookies.access_token
         const decoded = decodeAToken(token)
         const customer = await Customer.findById(decoded.sub)
         const orders = await Order.find({ customerId: customer.id })
@@ -78,8 +79,6 @@ const getOrders = async (req, res, next) => {
         next(err)
     }
 }
-
-
 
 const updateOrder = async (req, res, next) => {
     try {
