@@ -36,7 +36,8 @@ const deleteCart = async (req, res, next) => {
 
 const getCartByCustomerID = async (req, res, next) => {
     try {
-        const token = req.headers.authorization
+        // const token = req.headers.authorization
+        const token = req.cookies.access_token
         const decoded = decodeAToken(token)
         const customer = await Customer.findById(decoded.sub)
         const carts = await Cart.find({ customerId: customer.id })
