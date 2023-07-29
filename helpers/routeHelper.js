@@ -4,21 +4,21 @@ const Joi = require('@hapi/joi')
 
 const schemas = {
     //! Authenticate Schema
-    authSignUpSchema: Joi.object()
-        .keys({
-            name: Joi.string().min(2).required(),
-            email: Joi.string().email(),
-            phoneNumber: Joi.string().pattern(/^[0-9]{10}$/),
-            password: Joi.string().min(6).required(),
-        })
-        // .or('email', 'phoneNumber')
-        .with('email', 'password')
-        .with('phoneNumber', 'password'),
-
-    authSignInSchema: Joi.object().keys({
-        username: Joi.string().required(),
-        password: Joi.string().min(6).required(),
+    authSignUpSchema: Joi.object().keys({
+        name: Joi.string().min(2).required(),
+        email: Joi.string().regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).lowercase().required(),
+        phoneNumber: Joi.string().regex(/^(0\d{9})$/).required(),
+        password: Joi.string().pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/).required(),
     }),
+    // authSignInSchema: Joi.object().keys({
+    //     username: Joi.string().required(),
+    //     password: Joi.string().pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/).required(),
+    // }),
+    authSignInSchema: Joi.object().keys({
+        username: Joi.string().regex(/^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|0\d{9})$/).required(),
+        password: Joi.string().pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/).required(),
+    }),
+
     //! ID Schema
     // id mongodb
     idSchema: Joi.object().keys({
