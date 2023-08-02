@@ -31,6 +31,31 @@ const CustomerSchema = new Schema({
     password: {
         type: String,
     },
+    infoPaying: [
+        {
+            number_street: {
+                type: Number
+            },
+            ward: {
+                type: String,
+            },
+            district: {
+                type: String
+            },
+            province: {
+                type: String
+            },
+            addressNote: {
+                type: String
+            },
+            paymentMethod: {
+                type: String
+            },
+            isDefault: {
+                type: Boolean
+            }
+        },
+    ],
     googleId: {
         type: String,
     },

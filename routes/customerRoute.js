@@ -22,7 +22,14 @@ router
         CustomerController.createCustomer
     )
 
-router.route('/info').get(CustomerController.getInfoCustomer)
+router
+    .route('/info')
+    .get(CustomerController.getInfoCustomer)
+
+router
+    .route('/infoPaying')
+    .get(CustomerController.getCustomerInfoPaying)
+    .post(CustomerController.addInfoPaying)
 
 router
     .route('/signup')
@@ -42,6 +49,12 @@ router.route('/signin').post(
     },
     CustomerController.signin
 )
+
+router
+    .route('/orders')
+    .get(
+        CustomerController.getCustomerOrders
+    )
 
 router
     .route('/secret')

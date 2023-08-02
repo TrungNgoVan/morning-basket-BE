@@ -1,11 +1,37 @@
 'use strict'
 const Customer = require('../models/customerModel')
+const Orders = require('../models/orderModel')
 const {
     encodeAToken,
     decodeAToken,
 } = require('../middlewares/authenticateToken')
 
 /* eslint-disable no-unused-vars */
+
+const getCustomerByToken = async (req, res, next) => {
+    try {
+        const token = req.cookies.access_token
+        const decoded = decodeAToken(token)
+        const customer = await Customer.findById(decoded.sub)
+        return customer
+    } catch (err) {
+        next(err);
+    }
+}
+
+const addInfoPaying = async (req, res, next) => {
+    try {
+        const customer = await getCustomerByToken(req, res, next)
+        const infoPaying = req.body
+        customer.infoPaying.push(infoPaying)
+        await customer.save()
+        return res.status(200).json({
+            message: "ADD_INFO_PAYING:SUCCESS"
+        })
+    } catch (err) {
+        next(err);
+    }
+}
 
 const createCustomer = async (req, res, next) => {
     try {
@@ -78,12 +104,41 @@ const getCustomers = async (req, res, next) => {
     }
 }
 
+const getCustomerInfoPaying = async (req, res, next) => {
+    try {
+        const customer = await getCustomerByToken(req, res, next)
+        const infoPaying = customer.infoPaying;
+        return res.status(200).json({
+            infoPaying
+        })
+    } catch (err) {
+        next(err);
+    }
+}
+
+
+const getCustomerOrders = async (req, res, next) => {
+    try {
+        const customer = await getCustomerByToken(req, res, next)
+        const customerID = customer.id
+        const orders = await Orders.find({ 'customerId': customerID })
+        return res.status(200).json({
+            'message': "",
+            orders
+        })
+    } catch (err) {
+        next(err);
+    }
+}
+
 const getInfoCustomer = async (req, res, next) => {
     try {
         // const token = req.headers.authorization
-        const token = req.cookies.access_token
-        const decoded = decodeAToken(token)
-        const customer = await Customer.findById(decoded.sub)
+        // const token = req.cookies.access_token
+        // const decoded = decodeAToken(token)
+        // const customer = await Customer.findById(decoded.sub)
+        const customer = await getCustomerByToken(req, res, next)
+
         const retCustomer = (({
             id,
             name,
@@ -235,11 +290,14 @@ const signout = async (req, res, next) => {
 /* eslint-disable no-unused-vars */
 
 module.exports = {
+    addInfoPaying,
     createCustomer,
     deleteCustomer,
     getCustomerByID,
+    getCustomerInfoPaying,
     getInfoCustomer,
     getCustomers,
+    getCustomerOrders,
     replaceCustomer,
     secret,
     signout,
