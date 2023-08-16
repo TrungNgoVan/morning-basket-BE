@@ -1,5 +1,6 @@
 'use strict'
 const Customer = require('../models/customerModel')
+const { AUTH_TOKEN_STORAGE_KEY } = require("../configs")
 const {
     encodeAToken,
     decodeAToken,
@@ -81,7 +82,7 @@ const getCustomers = async (req, res, next) => {
 const getInfoCustomer = async (req, res, next) => {
     try {
         // const token = req.headers.authorization
-        const token = req.cookies.access_token
+        const token = req.cookies[AUTH_TOKEN_STORAGE_KEY]
         const decoded = decodeAToken(token)
         const customer = await Customer.findById(decoded.sub)
         const retCustomer = (({
@@ -179,14 +180,15 @@ const signin = async (req, res, next) => {
     // set header token
     // res.setHeader('Authorization', token)
     // save token in cookies
-    res.cookie('access_token', token, {
+    res.cookie(AUTH_TOKEN_STORAGE_KEY, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
+        maxAge: 30 * 24 * 60 * 60 * 1000
     })
     return res.status(200).json({
         message: 'CUSTOMER_SIGNIN:SUCCESS',
-        name: req.user.name,
-        token: token,
+        // name: req.user.name,
+        // token: token,
     })
 }
 
@@ -225,10 +227,11 @@ const signup = async (req, res, next) => {
 
 const signout = async (req, res, next) => {
     try {
-        return res.clearCookie('access_token').status(200).json({
+        return res.clearCookie(AUTH_TOKEN_STORAGE_KEY).status(200).json({
             message: 'CUSTOMER_SIGNOUT:SUCCESS',
         })
     } catch (err) {
+        console.log(err)
         next(err)
     }
 }

@@ -6,6 +6,7 @@ const passport = require('passport')
 require('../middlewares/passport')
 
 const CustomerController = require('../controllers/customerController')
+const { authenticateToken } = require('../middlewares/authenticateToken')
 
 const {
     schemas,
@@ -41,6 +42,10 @@ router.route('/signin').post(
         passport.authenticate(strategy, { session: false })(req, res, next)
     },
     CustomerController.signin
+)
+
+router.route('/signout').get(
+    authenticateToken, CustomerController.signout
 )
 
 router

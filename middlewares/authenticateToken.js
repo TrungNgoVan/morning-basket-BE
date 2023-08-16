@@ -24,7 +24,7 @@ const decodeAToken = (token) => {
 
 const authenticateToken = (req, res, next) => {
     // const token = req.headers.authorization
-    const token = req.cookies.access_token
+    const token = req.cookies[AUTH_TOKEN_STORAGE_KEY]
     if (!token) {
         return res
             .status(401)
