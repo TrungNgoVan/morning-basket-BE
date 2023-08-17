@@ -44,9 +44,7 @@ router.route('/signin').post(
     CustomerController.signin
 )
 
-router.route('/signout').get(
-    authenticateToken, CustomerController.signout
-)
+router.route('/signout').get(CustomerController.signout)
 
 router
     .route('/secret')
