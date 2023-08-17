@@ -183,7 +183,7 @@ const signin = async (req, res, next) => {
     res.cookie(AUTH_TOKEN_STORAGE_KEY, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 30 * 24 * 60 * 60 * 1000
+        maxAge: req.value.body.remember_me ? 30 * 24 * 60 * 60 * 1000 : undefined
     })
     return res.status(200).json({
         message: 'CUSTOMER_SIGNIN:SUCCESS',
@@ -227,7 +227,13 @@ const signup = async (req, res, next) => {
 
 const signout = async (req, res, next) => {
     try {
-        return res.clearCookie(AUTH_TOKEN_STORAGE_KEY).status(200).json({
+        res.cookie(AUTH_TOKEN_STORAGE_KEY, '', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 0,
+            overwrite: true
+        })
+        return res.status(200).json({
             message: 'CUSTOMER_SIGNOUT:SUCCESS',
         })
     } catch (err) {

@@ -18,6 +18,7 @@ const schemas = {
     authSignInSchema: Joi.object().keys({
         username: Joi.string().required(),
         password: Joi.string().min(6).required(),
+        remember_me: Joi.boolean()
     }),
     //! ID Schema
     // id mongodb
@@ -252,13 +253,13 @@ const validateParam = (schema, name) => {
 }
 
 const validateSignInBody = (req, res, next) => {
-    const { username, password } = req.body
+    const { username, password, remember_me } = req.body
     const isEmail = username.includes('@')
     const isPhoneNumber = !isEmail
     if (isEmail) {
-        req.value = { body: { email: username, password } }
+        req.value = { body: { email: username, password, remember_me } }
     } else if (isPhoneNumber) {
-        req.value = { body: { phoneNumber: username, password } }
+        req.value = { body: { phoneNumber: username, password, remember_me } }
     } else {
         return res
             .status(400)
