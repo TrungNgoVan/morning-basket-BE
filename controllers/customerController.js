@@ -133,11 +133,9 @@ const getCustomerOrders = async (req, res, next) => {
 
 const getInfoCustomer = async (req, res, next) => {
     try {
-        // const token = req.headers.authorization
-        // const token = req.cookies[AUTH_TOKEN_STORAGE_KEY]
-        // const decoded = decodeAToken(token)
-        // const customer = await Customer.findById(decoded.sub)
-        const customer = await getCustomerByToken(req, res, next)
+        const token = req.cookies[AUTH_TOKEN_STORAGE_KEY]
+        const decoded = decodeAToken(token)
+        const customer = await Customer.findById(decoded.sub)
 
         const retCustomer = (({
             id,
