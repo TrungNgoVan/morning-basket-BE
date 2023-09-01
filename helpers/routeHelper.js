@@ -6,17 +6,31 @@ const schemas = {
     //! Authenticate Schema
     authSignUpSchema: Joi.object().keys({
         name: Joi.string().min(2).required(),
-        email: Joi.string().regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/).lowercase().required(),
-        phoneNumber: Joi.string().regex(/^(0\d{9})$/).required(),
-        password: Joi.string().pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/).required(),
+        email: Joi.string()
+            .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+            .lowercase()
+            .required(),
+        phoneNumber: Joi.string()
+            .regex(/^(0\d{9})$/)
+            .required(),
+        password: Joi.string()
+            .pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)
+            .required(),
     }),
     // authSignInSchema: Joi.object().keys({
     //     username: Joi.string().required(),
     //     password: Joi.string().pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/).required(),
     // }),
     authSignInSchema: Joi.object().keys({
-        username: Joi.string().regex(/^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|0\d{9})$/).required(),
-        password: Joi.string().pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/).required(),
+        username: Joi.string()
+            .regex(
+                /^(?:[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}|0\d{9})$/
+            )
+            .required(),
+        password: Joi.string()
+            .pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/)
+            .required(),
+        remember_me: Joi.boolean(),
     }),
 
     //! ID Schema
@@ -252,13 +266,13 @@ const validateParam = (schema, name) => {
 }
 
 const validateSignInBody = (req, res, next) => {
-    const { username, password } = req.body
+    const { username, password, remember_me } = req.body
     const isEmail = username.includes('@')
     const isPhoneNumber = !isEmail
     if (isEmail) {
-        req.value = { body: { email: username, password } }
+        req.value = { body: { email: username, password, remember_me } }
     } else if (isPhoneNumber) {
-        req.value = { body: { phoneNumber: username, password } }
+        req.value = { body: { phoneNumber: username, password, remember_me } }
     } else {
         return res
             .status(400)

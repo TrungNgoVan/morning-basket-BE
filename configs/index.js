@@ -6,9 +6,11 @@ require('dotenv').config({ path: `${__dirname}/../.env.${stage}` })
 // const crypto = require('crypto');
 // const JWT_SECRET = crypto.randomBytes(64).toString('hex');
 const JWT_SECRET = 'testSecret'
+const AUTH_TOKEN_STORAGE_KEY = 'MorningBasket:authToken'
 
 module.exports = {
     JWT_SECRET,
+    AUTH_TOKEN_STORAGE_KEY,
     env: {
         STAGE: stage,
         MONGODB_URI: process.env.MONGODB_URI,

@@ -7,10 +7,7 @@
         "price": 30000,
         "quantity": 20,
         "photo": "8807379403072.jpg",
-        "tags": [
-            "đồ khô",
-            "rong biển"
-        ],
+        "tags": ["đồ khô", "rong biển"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -22,9 +19,7 @@
         "price": 60000,
         "quantity": 20,
         "photo": "8809716450671.jpg",
-        "tags": [
-            "sữa chua"
-        ],
+        "tags": ["sữa chua"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -36,9 +31,7 @@
         "price": 50000,
         "quantity": 20,
         "photo": "8809506855778.jpg",
-        "tags": [
-            "sữa chua"
-        ],
+        "tags": ["sữa chua"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -50,9 +43,7 @@
         "price": 50000,
         "quantity": 20,
         "photo": "8809506855785.jpg",
-        "tags": [
-            "sữa chua"
-        ],
+        "tags": ["sữa chua"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -64,9 +55,7 @@
         "price": 50000,
         "quantity": 20,
         "photo": "8809506855648.jpg",
-        "tags": [
-            "thạch"
-        ],
+        "tags": ["thạch"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -78,9 +67,7 @@
         "price": 50000,
         "quantity": 20,
         "photo": "8809506855662.jpg",
-        "tags": [
-            "thạch"
-        ],
+        "tags": ["thạch"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -92,9 +79,7 @@
         "price": 22000,
         "quantity": 20,
         "photo": "8806011435631.jpg",
-        "tags": [
-            "kẹo"
-        ],
+        "tags": ["kẹo"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -106,9 +91,7 @@
         "price": 34000,
         "quantity": 20,
         "photo": "8806011416142.jpg",
-        "tags": [
-            "nước uống"
-        ],
+        "tags": ["nước uống"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -120,10 +103,7 @@
         "price": 50000,
         "quantity": 20,
         "photo": "8809477920246.jpg",
-        "tags": [
-            "đồ khô",
-            "mì"
-        ],
+        "tags": ["đồ khô", "mì"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -135,9 +115,7 @@
         "price": 36000,
         "quantity": 20,
         "photo": "8803248000441.jpg",
-        "tags": [
-            "kẹo"
-        ],
+        "tags": ["kẹo"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -149,9 +127,7 @@
         "price": 36000,
         "quantity": 20,
         "photo": "8803248000427.jpg",
-        "tags": [
-            "kẹo"
-        ],
+        "tags": ["kẹo"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -163,9 +139,7 @@
         "price": 30000,
         "quantity": 20,
         "photo": "8803248000618.jpg",
-        "tags": [
-            "kẹo"
-        ],
+        "tags": ["kẹo"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -177,10 +151,7 @@
         "price": 30000,
         "quantity": 20,
         "photo": "8807379411084.jpg",
-        "tags": [
-            "đồ khô",
-            "rong biển"
-        ],
+        "tags": ["đồ khô", "rong biển"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -192,10 +163,7 @@
         "price": 55000,
         "quantity": 20,
         "photo": "8807379415129.jpg",
-        "tags": [
-            "đồ khô",
-            "rong biển"
-        ],
+        "tags": ["đồ khô", "rong biển"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -207,10 +175,7 @@
         "price": 40000,
         "quantity": 20,
         "photo": "8809691861783.jpg",
-        "tags": [
-            "đồ khô",
-            "rong biển"
-        ],
+        "tags": ["đồ khô", "rong biển"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -222,9 +187,7 @@
         "price": 70000,
         "quantity": 20,
         "photo": "8809305611063.jpg",
-        "tags": [
-            "snack"
-        ],
+        "tags": ["snack"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -236,9 +199,7 @@
         "price": 40000,
         "quantity": 20,
         "photo": "8809305611001.jpg",
-        "tags": [
-            "snack"
-        ],
+        "tags": ["snack"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -250,9 +211,7 @@
         "price": 20000,
         "quantity": 20,
         "photo": "8801382127970.jpg",
-        "tags": [
-            "nước uống"
-        ],
+        "tags": ["nước uống"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -264,9 +223,7 @@
         "price": 20000,
         "quantity": 20,
         "photo": "8801382134480.jpg",
-        "tags": [
-            "nước uống"
-        ],
+        "tags": ["nước uống"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -278,9 +235,7 @@
         "price": 20000,
         "quantity": 20,
         "photo": "8801382131021.jpg",
-        "tags": [
-            "nước uống"
-        ],
+        "tags": ["nước uống"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -292,9 +247,7 @@
         "price": 20000,
         "quantity": 20,
         "photo": "8801382147619.jpg",
-        "tags": [
-            "nước uống"
-        ],
+        "tags": ["nước uống"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -306,9 +259,7 @@
         "price": 20000,
         "quantity": 20,
         "photo": "8801382147602.jpg",
-        "tags": [
-            "nước uống"
-        ],
+        "tags": ["nước uống"],
         "createdAt": null,
         "updatedAt": null
     },
@@ -320,9 +271,7 @@
         "price": 20000,
         "quantity": 20,
         "photo": "8801382147596.jpg",
-        "tags": [
-            "nước uống"
-        ],
+        "tags": ["nước uống"],
         "createdAt": null,
         "updatedAt": null
     }

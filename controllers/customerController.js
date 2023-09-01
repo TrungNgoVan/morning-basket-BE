@@ -1,6 +1,7 @@
 'use strict'
 const Customer = require('../models/customerModel')
 const Orders = require('../models/orderModel')
+const { AUTH_TOKEN_STORAGE_KEY } = require('../configs')
 const {
     encodeAToken,
     decodeAToken,
@@ -15,7 +16,7 @@ const getCustomerByToken = async (req, res, next) => {
         const customer = await Customer.findById(decoded.sub)
         return customer
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -26,10 +27,10 @@ const addInfoPaying = async (req, res, next) => {
         customer.infoPaying.push(infoPaying)
         await customer.save()
         return res.status(200).json({
-            message: "ADD_INFO_PAYING:SUCCESS"
+            message: 'ADD_INFO_PAYING:SUCCESS',
         })
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
@@ -107,34 +108,33 @@ const getCustomers = async (req, res, next) => {
 const getCustomerInfoPaying = async (req, res, next) => {
     try {
         const customer = await getCustomerByToken(req, res, next)
-        const infoPaying = customer.infoPaying;
+        const infoPaying = customer.infoPaying
         return res.status(200).json({
-            infoPaying
+            infoPaying,
         })
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
-
 
 const getCustomerOrders = async (req, res, next) => {
     try {
         const customer = await getCustomerByToken(req, res, next)
         const customerID = customer.id
-        const orders = await Orders.find({ 'customerId': customerID })
+        const orders = await Orders.find({ customerId: customerID })
         return res.status(200).json({
-            'message': "",
-            orders
+            message: '',
+            orders,
         })
     } catch (err) {
-        next(err);
+        next(err)
     }
 }
 
 const getInfoCustomer = async (req, res, next) => {
     try {
         // const token = req.headers.authorization
-        // const token = req.cookies.access_token
+        // const token = req.cookies[AUTH_TOKEN_STORAGE_KEY]
         // const decoded = decodeAToken(token)
         // const customer = await Customer.findById(decoded.sub)
         const customer = await getCustomerByToken(req, res, next)
@@ -234,14 +234,17 @@ const signin = async (req, res, next) => {
     // set header token
     // res.setHeader('Authorization', token)
     // save token in cookies
-    res.cookie('access_token', token, {
+    res.cookie(AUTH_TOKEN_STORAGE_KEY, token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
+        maxAge: req.value.body.remember_me
+            ? 30 * 24 * 60 * 60 * 1000
+            : undefined,
     })
     return res.status(200).json({
         message: 'CUSTOMER_SIGNIN:SUCCESS',
-        name: req.user.name,
-        token: token,
+        // name: req.user.name,
+        // token: token,
     })
 }
 
@@ -280,10 +283,17 @@ const signup = async (req, res, next) => {
 
 const signout = async (req, res, next) => {
     try {
-        return res.clearCookie('access_token').status(200).json({
+        res.cookie(AUTH_TOKEN_STORAGE_KEY, '', {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 0,
+            overwrite: true,
+        })
+        return res.status(200).json({
             message: 'CUSTOMER_SIGNOUT:SUCCESS',
         })
     } catch (err) {
+        console.log(err)
         next(err)
     }
 }

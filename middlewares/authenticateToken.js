@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { JWT_SECRET } = require('../configs/index')
+const { JWT_SECRET, AUTH_TOKEN_STORAGE_KEY } = require('../configs')
 
 const encodeAToken = (customerID) => {
     return jwt.sign(
@@ -24,7 +24,7 @@ const decodeAToken = (token) => {
 
 const authenticateToken = (req, res, next) => {
     // const token = req.headers.authorization
-    const token = req.cookies.access_token
+    const token = req.cookies[AUTH_TOKEN_STORAGE_KEY]
     if (!token) {
         return res
             .status(401)

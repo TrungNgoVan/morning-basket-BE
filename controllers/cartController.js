@@ -1,5 +1,6 @@
 const Cart = require('../models/cartModel')
 const Customer = require('../models/customerModel')
+const { AUTH_TOKEN_STORAGE_KEY } = require('../configs')
 const { decodeAToken } = require('../middlewares/authenticateToken')
 
 const createCart = async (req, res, next) => {
@@ -37,7 +38,7 @@ const deleteCart = async (req, res, next) => {
 const getCartByCustomerID = async (req, res, next) => {
     try {
         // const token = req.headers.authorization
-        const token = req.cookies.access_token
+        const token = req.cookies[AUTH_TOKEN_STORAGE_KEY]
         const decoded = decodeAToken(token)
         const customer = await Customer.findById(decoded.sub)
         const carts = await Cart.find({ customerId: customer.id })

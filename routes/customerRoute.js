@@ -6,6 +6,7 @@ const passport = require('passport')
 require('../middlewares/passport')
 
 const CustomerController = require('../controllers/customerController')
+// const { authenticateToken } = require('../middlewares/authenticateToken')
 
 const {
     schemas,
@@ -22,9 +23,7 @@ router
         CustomerController.createCustomer
     )
 
-router
-    .route('/info')
-    .get(CustomerController.getInfoCustomer)
+router.route('/info').get(CustomerController.getInfoCustomer)
 
 router
     .route('/infoPaying')
@@ -50,11 +49,9 @@ router.route('/signin').post(
     CustomerController.signin
 )
 
-router
-    .route('/orders')
-    .get(
-        CustomerController.getCustomerOrders
-    )
+router.route('/signout').get(CustomerController.signout)
+
+router.route('/orders').get(CustomerController.getCustomerOrders)
 
 router
     .route('/secret')
