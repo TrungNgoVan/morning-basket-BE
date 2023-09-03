@@ -3,6 +3,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const { getNextSequenceValue } = require('../helpers/mongoHelper')
+const Product = require('../models/productModel')
 
 const orderStatus = {
     PENDING: 'pending',
@@ -29,13 +30,13 @@ const OrderSchema = new Schema({
     },
     items: [
         {
-            itemId: {
+            productId: {
                 type: Number,
             },
             name: {
                 type: String,
             },
-            quantity: {
+            selectedQuantity: {
                 type: Number,
             },
             price: {
@@ -88,6 +89,20 @@ OrderSchema.pre('save', async function (next) {
             this.id = await getNextSequenceValue('order')
         }
         next()
+    } catch (err) {
+        next(err)
+    }
+})
+
+OrderSchema.post('save', async function (next) {
+    try {
+        this.items.forEach(async (item) => {
+            let product = await Product.findOne({ id: item.productId })
+            product.quantity -= item.selectedQuantity
+            await Product.findOneAndUpdate(
+                { id: item.productId }, product, { updatedAt: Date.now() }
+            )
+        })
     } catch (err) {
         next(err)
     }

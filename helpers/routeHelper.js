@@ -105,9 +105,9 @@ const schemas = {
             items: Joi.array()
                 .items(
                     Joi.object({
-                        itemId: Joi.number().required().allow(null),
+                        productId: Joi.number().required().allow(null),
                         name: Joi.string().required(),
-                        quantity: Joi.number().required(),
+                        selectedQuantity: Joi.number().required(),
                         price: Joi.number().required(),
                     })
                 )
@@ -140,9 +140,9 @@ const schemas = {
             customerId: Joi.number().allow(null),
             items: Joi.array().items(
                 Joi.object({
-                    itemId: Joi.number().allow(null),
+                    productId: Joi.number().allow(null),
                     name: Joi.string(),
-                    quantity: Joi.number(),
+                    selectedQuantity: Joi.number(),
                     price: Joi.number(),
                 })
             ),
@@ -168,9 +168,9 @@ const schemas = {
         customerId: Joi.number().required(),
         items: Joi.array().items(
             Joi.object({
-                itemId: Joi.number().required(),
+                productId: Joi.number().required(),
                 name: Joi.string().required(),
-                quantity: Joi.number().required(),
+                selectedQuantity: Joi.number().required(),
                 price: Joi.number().required(),
             })
         ),
@@ -186,9 +186,9 @@ const schemas = {
         customerId: Joi.number(),
         items: Joi.array().items(
             Joi.object({
-                itemId: Joi.number(),
+                productId: Joi.number(),
                 name: Joi.string(),
-                quantity: Joi.number(),
+                selectedQuantity: Joi.number(),
                 price: Joi.number(),
             })
         ),
