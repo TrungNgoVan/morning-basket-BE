@@ -1,5 +1,8 @@
 node_modules
 /.env
+/.env.dev
+/.env.prod
+X509-cert-1389186371236112852.pem
 /package-lock.json
 /yarn.lock
 mongodbcloud-X509-cert-950696746832105764.pem
