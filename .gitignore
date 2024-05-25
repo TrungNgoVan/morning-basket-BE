@@ -3,6 +3,7 @@ node_modules
 /.env.dev
 /.env.prod
 X509-cert-1389186371236112852.pem
+X509-cert-1389186371236112852.pem.base64
 /package-lock.json
 /yarn.lock
-mongodbcloud-X509-cert-950696746832105764.pem
+.vercel

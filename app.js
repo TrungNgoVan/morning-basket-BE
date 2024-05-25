@@ -11,6 +11,8 @@ const MongoStore = require('connect-mongo')
 const crypto = require('crypto')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const fs = require('fs')
+const path = require('path')
 
 /* eslint-disable no-undef */
 const { env } = require('./configs/index')
@@ -29,13 +31,23 @@ const cartRouter = require('./routes/cartRoute')
 const productRatingRouter = require('./routes/productRatingRoute')
 const contactRouter = require('./routes/contactRoute')
 
-const credentials = env.MONGODB_CERT
+// Decode the Base64 encoded certificate and write to temporary directory
+const tmpDir = '/tmp'
+const certPath = path.join(tmpDir, 'mongodb.pem')
+try {
+    fs.writeFileSync(certPath, Buffer.from(env.MONGODB_CERT_BASE64, 'base64'))
+    console.log(`Certificate written to ${certPath}`)
+} catch (err) {
+    console.error('Failed to write certificate file', err)
+    process.exit(1)
+}
+
 const conn = mongoose
     .connect(env.MONGODB_URI, {
         useNewUrlParser: true,
-        tls: env.MONGODB_SSL_ENABLED,
-        tlsCertificateKeyFile: credentials,
-        // sslCert: credentials,
+        useUnifiedTopology: true,
+        tls: env.MONGODB_SSL_ENABLED === 'true',
+        tlsCertificateKeyFile: certPath,
         dbName: env.MONGODB_DB_NAME,
     })
     .then((m) => {
@@ -45,7 +57,6 @@ const conn = mongoose
     .catch((err) => {
         console.error(`Connect db failed with error ${err} ❌`)
     })
-
 const mongoStore = MongoStore.create({
     clientPromise: conn,
     dbName: env.MONGODB_DB_NAME,
@@ -78,6 +89,8 @@ rootRouter.use('/customers', customerRouter)
 rootRouter.use('/orders', orderRouter)
 rootRouter.use('/carts', cartRouter)
 rootRouter.use('/productRatings', productRatingRouter)
+rootRouter.use('/contact', contactRouter)
+
 app.use(env.ROUTE_PREFIX, rootRouter)
 
 app.use('/', (req, res, next) => {
@@ -101,4 +114,6 @@ let server = app.listen(env.PORT || 3000, () => {
     console.log(`Stage: ${env.STAGE}`)
     console.log(`Server listening on port ${server.address().port}`)
 })
+
+module.exports = app
 /* eslint-disable no-undef */

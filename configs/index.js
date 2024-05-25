@@ -1,13 +1,15 @@
 'use strict'
 
+require('dotenv').config({ path: `${__dirname}/../.env` })
 const stage = process.env.NODE_ENV ? process.env.NODE_ENV : 'dev'
+console.log(`Running in ${stage} mode`)
+
 require('dotenv').config({ path: `${__dirname}/../.env.${stage}` })
 
 // const crypto = require('crypto');
 // const JWT_SECRET = crypto.randomBytes(64).toString('hex');
 const JWT_SECRET = 'testSecret'
 const AUTH_TOKEN_STORAGE_KEY = 'MorningBasket:authToken'
-
 module.exports = {
     JWT_SECRET,
     AUTH_TOKEN_STORAGE_KEY,
@@ -16,6 +18,7 @@ module.exports = {
         MONGODB_URI: process.env.MONGODB_URI,
         MONGODB_SSL_ENABLED: process.env.MONGODB_SSL_ENABLED,
         MONGODB_CERT: process.env.MONGODB_CERT,
+        MONGODB_CERT_BASE64: process.env.MONGODB_CERT_BASE64,
         MONGODB_DB_NAME: process.env.MONGODB_DB_NAME,
         PORT: process.env.PORT,
         FRONTEND_URL: process.env.FRONTEND_URL,
